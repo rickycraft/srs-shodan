@@ -17,7 +17,9 @@ Technologies:
 - drizzle-orm
 - shadcn/ui
 
-## Telegram bot
+## Telegram BOT
+Usare getUpdate oppure le callback?
+
 Core:
 - /start link di registrazione
 
