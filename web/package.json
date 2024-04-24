@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^0.7.0",
-    "@t3-oss/env-nextjs": "^0.10.1",
     "drizzle-orm": "^0.29.4",
     "mysql2": "^3.9.1",
     "next": "^14.2.1",

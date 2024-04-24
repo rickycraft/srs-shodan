@@ -9,7 +9,7 @@ Core:
 
 Extra:
 - Search ip
-# ah gayyyyy
+
 Technologies:
 - NextJS
 - Docker
