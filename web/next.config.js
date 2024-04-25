@@ -4,6 +4,10 @@
  */
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  output: 'standalone',
+  swcMinify: true,
+  reactStrictMode: false,
+};
 
 export default config;
