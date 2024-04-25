@@ -8,5 +8,4 @@ variable "azurerm_storage_account_name" {
   type        = string
   default     = "shodantfstorageaccount"
   description = "Name of the storage account."
-
 }
