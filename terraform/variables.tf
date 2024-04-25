@@ -9,3 +9,9 @@ variable "azurerm_storage_account_name" {
   default     = "shodantfstorageaccount"
   description = "Name of the storage account."
 }
+
+variable "azurerm_region" {
+  type        = string
+  default     = "germanywestcentral"
+  description = "Azure region to deploy resources."
+}

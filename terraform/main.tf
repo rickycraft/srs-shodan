@@ -22,7 +22,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "rg" {
   name     = var.azurerm_resource_group_name
-  location = "westeurope"
+  location = var.azurerm_region
 }
 
 resource "azurerm_storage_account" "storage_account" {
@@ -32,3 +32,4 @@ resource "azurerm_storage_account" "storage_account" {
   account_tier             = "Standard"
   account_replication_type = "GRS"
 }
+
