@@ -15,3 +15,6 @@ web/.env
 web/.env*.local
 
 *.tsbuildinfo
+
+# terraform
+terraform/.terraform
