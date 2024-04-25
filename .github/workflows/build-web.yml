@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "web/**"
+      - ".github/workflows/*"
 
 jobs:
   docker:
@@ -23,3 +24,5 @@ jobs:
           context: "{{defaultContext}}:web"
           push: true
           tags: "ghcr.io/${{ github.repository_owner }}/srs-web:${{ github.ref_name }}"
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
