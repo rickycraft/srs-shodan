@@ -1,4 +1,4 @@
-name: Build and Push Docker image
+name: Build and Push Web Image
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}:${{ github.ref_name }}
+  IMAGE_NAME: "${{ github.repository }}:${{ github.ref_name }}"
 
 jobs:
   docker:
