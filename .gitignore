@@ -1,6 +1,7 @@
 # misc
 .DS_Store
 .vscode
+**/__pycache__
 
 # dependencies
 web/node_modules
