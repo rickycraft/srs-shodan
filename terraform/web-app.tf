@@ -42,5 +42,6 @@ resource "null_resource" "app_publish_profile" {
     az functionapp deployment list-publishing-profiles --name ${azurerm_linux_web_app.next_app.name} --resource-group ${var.azurerm_resource_group_name} --xml > ${azurerm_linux_web_app.next_app.name}.xml
     gh secret set -R ${var.repo_name} AZURE_WEBAPP_PUBLISH_PROFILE < ${azurerm_linux_web_app.next_app.name}.xml
     EOF
+    when    = create
   }
 }
