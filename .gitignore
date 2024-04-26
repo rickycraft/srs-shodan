@@ -1,5 +1,6 @@
 # misc
 .DS_Store
+.vscode
 
 # dependencies
 web/node_modules
@@ -23,3 +24,4 @@ terraform/*.lock.info
 
 # functions
 functions/env
+functions/*/.venv
