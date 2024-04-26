@@ -13,4 +13,4 @@ def queue_trigger1(azqueue: func.QueueMessage):
 
 @app.event_grid_trigger(arg_name="azeventgrid")
 def EventGridTrigger1(azeventgrid: func.EventGridEvent):
-    logging.info('Python EventGrid trigger processed an event')
+    logging.info('Python EventGrid trigger processed an event!')
