@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.azurerm_region
 }
 
-resource "azurerm_storage_account" "storage_account" {
+resource "azurerm_storage_account" "default" {
   name                     = var.azurerm_storage_account_name
   resource_group_name      = var.azurerm_resource_group_name
   location                 = var.azurerm_region
@@ -34,7 +34,7 @@ resource "azurerm_storage_account" "storage_account" {
 }
 
 resource "azurerm_service_plan" "elastic" {
-  name                = "appservice-linux-B1"
+  name                = "linux-elastic"
   resource_group_name = var.azurerm_resource_group_name
   location            = var.azurerm_region
   os_type             = "Linux"
