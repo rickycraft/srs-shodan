@@ -1,3 +1,11 @@
+resource "azurerm_service_plan" "elastic" {
+  name                = "linux-elastic"
+  resource_group_name = var.azurerm_resource_group_name
+  location            = var.azurerm_region
+  os_type             = "Linux"
+  sku_name            = "Y1"
+}
+
 resource "azurerm_linux_function_app" "shodan" {
   name                       = "shodan-srs"
   resource_group_name        = var.azurerm_resource_group_name
@@ -21,4 +29,3 @@ resource "azurerm_linux_function_app" "shodan" {
     EVENTGRID_ENDPOINT = azurerm_eventgrid_topic.shodan.endpoint
   }
 }
-

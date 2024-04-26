@@ -33,14 +33,6 @@ resource "azurerm_storage_account" "default" {
   account_replication_type = "GRS"
 }
 
-resource "azurerm_service_plan" "elastic" {
-  name                = "linux-elastic"
-  resource_group_name = var.azurerm_resource_group_name
-  location            = var.azurerm_region
-  os_type             = "Linux"
-  sku_name            = "Y1"
-}
-
 resource "azurerm_log_analytics_workspace" "main" {
   name                = "shodan-srs-main"
   resource_group_name = var.azurerm_resource_group_name
