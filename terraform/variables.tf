@@ -27,3 +27,10 @@ variable "project_prefix" {
   default     = "shodan-srs"
   description = "The prefix to use for all resources in this project."
 }
+
+variable "docker_image_name" {
+  type        = string
+  default     = "rickycraft/srs-shodan:main"
+  description = "The docker image to use for the web app."
+
+}
