@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import urllib.request
 
 import azure.functions as func
@@ -30,9 +31,9 @@ def ShodanProducer(req: func.HttpRequest) -> func.HttpResponse:
 @app.event_grid_trigger(arg_name="azeventgrid")
 def ShodanConsumer(azeventgrid: func.EventGridEvent):
     logging.info('Python EventGrid trigger processed an event')
-    data = azeventgrid.get_json()
-    logging.info(data)
+    logging.info(azeventgrid.get_json())
 
+    data = { "foo": "azure"}
     json_data = json.dumps(data).encode('utf-8')
     req = urllib.request.Request(webhook_url, data=json_data, method='POST')
     req.add_header('Content-Type', 'application/json')
