@@ -12,6 +12,6 @@ variable "azurerm_storage_account_name" {
 
 variable "azurerm_region" {
   type        = string
-  default     = "germanywestcentral"
+  default     = "westeurope"
   description = "Azure region to deploy resources."
 }

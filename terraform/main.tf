@@ -27,9 +27,16 @@ resource "azurerm_resource_group" "rg" {
 
 resource "azurerm_storage_account" "storage_account" {
   name                     = var.azurerm_storage_account_name
-  resource_group_name      = azurerm_resource_group.rg.name
-  location                 = azurerm_resource_group.rg.location
+  resource_group_name      = var.azurerm_resource_group_name
+  location                 = var.azurerm_region
   account_tier             = "Standard"
   account_replication_type = "GRS"
 }
 
+resource "azurerm_service_plan" "elastic" {
+  name                = "appservice-linux-B1"
+  resource_group_name = var.azurerm_resource_group_name
+  location            = var.azurerm_region
+  os_type             = "Linux"
+  sku_name            = "Y1"
+}
