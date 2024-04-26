@@ -20,3 +20,6 @@ web/.env*.local
 terraform/.terraform
 terraform/*.backup
 terraform/*.lock.info
+
+# functions
+functions/env
