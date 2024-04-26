@@ -15,3 +15,9 @@ variable "azurerm_region" {
   default     = "westeurope"
   description = "Azure region to deploy resources."
 }
+
+variable "azurerm_function_consumer_name" {
+  type        = string
+  default     = "ShodanConsumer"
+  description = "Name of the function app consumer."
+}

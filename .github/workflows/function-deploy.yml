@@ -21,12 +21,12 @@ name: Deploy Azure Function
 on:
   push:
     paths:
-      - "functions/consumer/**"
-      - ".github/workflows/function-consumer.yml"
+      - "functions/**"
+      - ".github/workflows/*"
 
 env:
   AZURE_FUNCTIONAPP_NAME: "shodan-srs" # set this to your function app name on Azure
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./functions/consumer" # set this to the path to your function app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./functions" # set this to the path to your function app project, defaults to the repository root
   PYTHON_VERSION: "3.10" # set this to the python version to use (e.g. '3.6', '3.7', '3.8')
 
 jobs:

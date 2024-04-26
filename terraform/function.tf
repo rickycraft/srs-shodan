@@ -13,17 +13,4 @@ resource "azurerm_linux_function_app" "shodan" {
   }
 }
 
-# resource "azurerm_function_app_function" "receiver_function" {
-#   name            = "shodan-srs-receiver-func"
-#   function_app_id = azurerm_linux_function_app.receiver.id
-#   language        = "Python"
-
-#   file {
-#     name    = "receiver.py"
-#     content = file("../functions/receiver.py")
-#   }
-
-#   config_json = file("../functions/receiver-config.json")
-
-# }
 
