@@ -1,7 +1,7 @@
 resource "azurerm_eventgrid_topic" "shodan" {
   name                = "shodan-eventgrid-topic"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.azurerm_resource_group_name
+  location            = var.azurerm_region
 }
 
 resource "azurerm_eventgrid_event_subscription" "consumer" {
