@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.100.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2.2"
+    }
   }
 
   backend "azurerm" {

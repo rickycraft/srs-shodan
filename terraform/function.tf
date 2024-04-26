@@ -29,3 +29,16 @@ resource "azurerm_linux_function_app" "shodan" {
     EVENTGRID_ENDPOINT = azurerm_eventgrid_topic.shodan.endpoint
   }
 }
+
+resource "null_resource" "function_publish_profile" {
+  triggers = {
+    trigger_value = "${azurerm_linux_function_app.shodan.id}"
+  }
+
+  provisioner "local-exec" {
+    command = <<EOF
+    az functionapp deployment list-publishing-profiles --name ${azurerm_linux_function_app.shodan.name} --resource-group ${var.azurerm_resource_group_name} --xml > ${azurerm_linux_function_app.shodan.name}.xml
+    gh secret set -R ${var.repo_name} AZURE_FUNCTIONAPP_PUBLISH_PROFILE < ${azurerm_linux_function_app.shodan.name}.xml
+    EOF
+  }
+}

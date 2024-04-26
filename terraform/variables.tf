@@ -28,6 +28,12 @@ variable "project_prefix" {
   description = "The prefix to use for all resources in this project."
 }
 
+variable "repo_name" {
+  type        = string
+  default     = "rickycraft/srs-shodan"
+  description = "The name of the GitHub repository."
+}
+
 variable "docker_image_name" {
   type        = string
   default     = "rickycraft/srs-shodan:main"
