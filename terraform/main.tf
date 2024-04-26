@@ -20,10 +20,10 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = var.azurerm_resource_group_name
-  location = var.azurerm_region
-}
+# resource "azurerm_resource_group" "rg" {
+#   name     = var.azurerm_resource_group_name
+#   location = var.azurerm_region
+# }
 
 resource "azurerm_storage_account" "default" {
   name                     = var.azurerm_storage_account_name
