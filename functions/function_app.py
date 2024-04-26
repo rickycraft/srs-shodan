@@ -1,3 +1,4 @@
+import json
 import logging
 import urllib.request
 
@@ -32,7 +33,9 @@ def ShodanConsumer(azeventgrid: func.EventGridEvent):
     data = azeventgrid.get_json()
     logging.info(data)
 
-    req = urllib.request.Request(webhook_url, data=data, method='POST')
+    json_data = json.dumps(data).encode('utf-8')
+    req = urllib.request.Request(webhook_url, data=json_data, method='POST')
+    req.add_header('Content-Type', 'application/json')
     with urllib.request.urlopen(req) as response:
         res = response.read()
         logging.info(res)
