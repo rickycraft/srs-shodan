@@ -21,3 +21,9 @@ variable "azurerm_function_consumer_name" {
   default     = "ShodanConsumer"
   description = "Name of the function app consumer."
 }
+
+variable "project_prefix" {
+  type        = string
+  default     = "shodan-srs"
+  description = "The prefix to use for all resources in this project."
+}

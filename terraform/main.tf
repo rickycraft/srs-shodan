@@ -40,3 +40,20 @@ resource "azurerm_service_plan" "elastic" {
   os_type             = "Linux"
   sku_name            = "Y1"
 }
+
+resource "azurerm_log_analytics_workspace" "main" {
+  name                = "shodan-srs-main"
+  resource_group_name = var.azurerm_resource_group_name
+  location            = var.azurerm_region
+  sku                 = "PerGB2018"
+  daily_quota_gb      = 1
+}
+
+resource "azurerm_application_insights" "main" {
+  name                = "shodan-srs-insight"
+  resource_group_name = var.azurerm_resource_group_name
+  location            = var.azurerm_region
+  depends_on          = [azurerm_log_analytics_workspace.main]
+  workspace_id        = azurerm_log_analytics_workspace.main.id
+  application_type    = "other"
+}
