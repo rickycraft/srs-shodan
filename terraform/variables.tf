@@ -34,3 +34,9 @@ variable "docker_image_name" {
   description = "The docker image to use for the web app."
 
 }
+
+variable "azurerm_web_app_name" {
+  type        = string
+  default     = "shodan-srs-next"
+  description = "Name of the web app."
+}

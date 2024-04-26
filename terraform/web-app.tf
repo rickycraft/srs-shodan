@@ -3,12 +3,11 @@ resource "azurerm_service_plan" "app_service" {
   resource_group_name = var.azurerm_resource_group_name
   location            = var.azurerm_region
   os_type             = "Linux"
-  sku_name            = "Y1"
-  # maximum_elastic_worker_count = 2
+  sku_name            = "B1"
 }
 
 resource "azurerm_linux_web_app" "next-app" {
-  name                = "shodan-srs-next"
+  name                = var.azurerm_web_app_name
   resource_group_name = var.azurerm_resource_group_name
   location            = var.azurerm_region
   service_plan_id     = azurerm_service_plan.app_service.id

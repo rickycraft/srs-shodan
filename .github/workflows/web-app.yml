@@ -1,4 +1,4 @@
-name: Build and Push Web Image
+name: Build and Deploy Web Image
 
 on:
   push:
@@ -9,9 +9,10 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: "${{ github.repository }}:${{ github.ref_name }}"
+  AZURE_WEBAPP_NAME: "shodan-srs-next"
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,3 +34,17 @@ jobs:
           tags: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  deploy:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: "ghcr.io/${{ env.IMAGE_NAME }}"
