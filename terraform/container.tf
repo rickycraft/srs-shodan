@@ -12,12 +12,13 @@ resource "azurerm_role_assignment" "registry" {
 }
 
 resource "azurerm_container_registry" "main" {
-  name                          = "shodansrs"
-  resource_group_name           = var.azurerm_resource_group_name
-  location                      = var.azurerm_region
-  depends_on                    = []
-  sku                           = "Basic"
-  admin_enabled                 = false
+  name                = "shodansrs"
+  resource_group_name = var.azurerm_resource_group_name
+  location            = var.azurerm_region
+  depends_on          = []
+  sku                 = "Basic"
+  # to disable when going to production
+  admin_enabled                 = true
   public_network_access_enabled = true
   anonymous_pull_enabled        = false
 
