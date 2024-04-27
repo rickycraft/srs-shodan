@@ -6,3 +6,8 @@ output "event_grid_key" {
 output "event_grid_endpoint" {
   value = azurerm_eventgrid_topic.shodan.endpoint
 }
+
+output "github_registry_password" {
+  value     = local.github_token_pass
+  sensitive = true
+}
