@@ -7,8 +7,10 @@ on:
       - ".github/workflows/*"
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: "${{ github.repository }}:${{ github.ref_name }}"
+  GITHUB_REGISTRY: ghcr.io
+  AZURE_REGISTRY: shodansrs.azurecr.io
+  GH_IMAGE_NAME: "${{ github.repository }}:${{ github.ref_name }}"
+  AZ_IMAGE_NAME: "shodan-srs-next:${{ github.ref_name }}"
   AZURE_WEBAPP_NAME: "shodan-srs-next"
 
 jobs:
@@ -23,15 +25,23 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ env.GITHUB_REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Login to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.AZURE_REGISTRY }}
+          username: github
+          password: ${{ secrets.AZURE_REGISTRY_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: "{{defaultContext}}:web"
           push: true
-          tags: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          tags: |
+            "${{ env.GITHUB_REGISTRY }}/${{ env.GH_IMAGE_NAME }}"
+            "${{ env.AZURE_REGISTRY }}/${{ env.AZ_IMAGE_NAME }}"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -47,4 +57,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: "ghcr.io/${{ env.IMAGE_NAME }}"
+          images: "ghcr.io/${{ env.GH_IMAGE_NAME }}"
