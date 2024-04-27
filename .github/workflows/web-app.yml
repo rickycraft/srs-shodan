@@ -11,6 +11,7 @@ env:
   AZURE_REGISTRY: shodansrs.azurecr.io
   GH_IMAGE_NAME: "${{ github.repository }}:${{ github.ref_name }}"
   AZ_IMAGE_NAME: "shodan-srs-next:${{ github.ref_name }}"
+  AZ_IMAGE_SHA: "shodan-srs-next:${{ github.sha }}"
   AZURE_WEBAPP_NAME: "shodan-srs-next"
 
 jobs:
@@ -42,6 +43,7 @@ jobs:
           tags: |
             "${{ env.GITHUB_REGISTRY }}/${{ env.GH_IMAGE_NAME }}"
             "${{ env.AZURE_REGISTRY }}/${{ env.AZ_IMAGE_NAME }}"
+            "${{ env.AZURE_REGISTRY }}/${{ env.AZ_IMAGE_SHA }}"
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -57,4 +59,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          images: "ghcr.io/${{ env.GH_IMAGE_NAME }}"
+          images: "${{ env.AZURE_REGISTRY }}/${{ env.AZ_IMAGE_SHA }}"
