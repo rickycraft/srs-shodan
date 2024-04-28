@@ -1,6 +1,5 @@
 # misc
 .DS_Store
-.vscode
 **/__pycache__
 
 # dependencies
@@ -27,3 +26,4 @@ terraform/*.xml
 # functions
 functions/env
 functions/*/.venv
+.azurite
