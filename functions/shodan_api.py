@@ -46,3 +46,9 @@ def list_alerts():
     alerts = api.alerts()
     logging.info("active alerts:\n%s", json.dumps(alerts, indent=2))
     return alerts
+
+def edit_trigger(url: str):
+    """Edit webhook trigger URL."""
+    nid = get_notifier_id()
+    res = api.notifier.edit(nid=nid, args={'url': url })
+    return res
