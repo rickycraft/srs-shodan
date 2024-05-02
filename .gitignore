@@ -22,6 +22,7 @@ terraform/.terraform
 terraform/*.backup
 terraform/*.lock.info
 terraform/*.xml
+terraform/terraform.tfvars
 
 # functions
 functions/env

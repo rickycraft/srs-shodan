@@ -1,3 +1,9 @@
+variable "shodan_api_key" {
+  type        = string
+  description = "Shodan API key"
+  sensitive   = true
+}
+
 resource "azurerm_service_plan" "elastic" {
   name                = "linux-elastic"
   resource_group_name = var.azurerm_resource_group_name
@@ -27,6 +33,7 @@ resource "azurerm_linux_function_app" "shodan" {
   app_settings = {
     EVENTGRID_KEY      = azurerm_eventgrid_topic.shodan.primary_access_key
     EVENTGRID_ENDPOINT = azurerm_eventgrid_topic.shodan.endpoint
+    SHODAN_API_KEY     = var.shodan_api_key
   }
 }
 
