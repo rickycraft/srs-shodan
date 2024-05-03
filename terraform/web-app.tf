@@ -57,7 +57,6 @@ resource "azurerm_linux_web_app" "next_app" {
 
 }
 
-
 resource "null_resource" "app_publish_profile" {
   depends_on = [azurerm_linux_web_app.next_app]
   triggers = {
@@ -70,5 +69,20 @@ resource "null_resource" "app_publish_profile" {
     gh secret set -R ${var.repo_name} AZURE_WEBAPP_PUBLISH_PROFILE < ${azurerm_linux_web_app.next_app.name}.xml
     EOF
     when    = create
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "web_app" {
+  name                       = "app-service-diagnostic"
+  depends_on                 = [azurerm_linux_web_app.next_app, azurerm_log_analytics_workspace.main]
+  target_resource_id         = azurerm_linux_web_app.next_app.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "AppServiceHTTPLogs"
+  }
+
+  enabled_log {
+    category = "AppServiceConsoleLogs"
   }
 }

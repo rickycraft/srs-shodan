@@ -44,3 +44,15 @@ resource "null_resource" "function_publish_profile" {
     when    = create
   }
 }
+
+resource "azurerm_monitor_diagnostic_setting" "function" {
+  name                       = "function-diagnostic"
+  depends_on                 = [azurerm_linux_function_app.shodan, azurerm_log_analytics_workspace.main]
+  target_resource_id         = azurerm_linux_function_app.shodan.id
+  log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
+
+  enabled_log {
+    category = "FunctionAppLogs"
+  }
+
+}
