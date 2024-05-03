@@ -46,3 +46,9 @@ variable "azurerm_web_app_name" {
   default     = "shodan-srs-next"
   description = "Name of the web app."
 }
+
+variable "shodan_api_key" {
+  type        = string
+  description = "Shodan API key"
+  sensitive   = true
+}

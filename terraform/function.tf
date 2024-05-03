@@ -1,9 +1,3 @@
-variable "shodan_api_key" {
-  type        = string
-  description = "Shodan API key"
-  sensitive   = true
-}
-
 resource "azurerm_service_plan" "elastic" {
   name                = "linux-elastic"
   resource_group_name = var.azurerm_resource_group_name
