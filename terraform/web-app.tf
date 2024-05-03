@@ -46,8 +46,8 @@ resource "azurerm_linux_web_app" "next_app" {
     APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.main.instrumentation_key
     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
     # use this to login with admin user
-    # DOCKER_REGISTRY_SERVER_USERNAME       = azurerm_container_registry.main.admin_username
-    # DOCKER_REGISTRY_SERVER_PASSWORD       = azurerm_container_registry.main.admin_password
+    # DOCKER_REGISTRY_SERVER_USERNAME = azurerm_container_registry.main.admin_username
+    # DOCKER_REGISTRY_SERVER_PASSWORD = azurerm_container_registry.main.admin_password
   }
 
   identity {
@@ -84,5 +84,10 @@ resource "azurerm_monitor_diagnostic_setting" "web_app" {
 
   enabled_log {
     category = "AppServiceConsoleLogs"
+  }
+
+  metric {
+    category = "AllMetrics"
+    enabled  = false
   }
 }

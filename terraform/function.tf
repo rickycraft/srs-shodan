@@ -55,4 +55,9 @@ resource "azurerm_monitor_diagnostic_setting" "function" {
     category = "FunctionAppLogs"
   }
 
+  metric {
+    category = "AllMetrics"
+    enabled  = false
+  }
+
 }
