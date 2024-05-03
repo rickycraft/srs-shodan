@@ -1,6 +1,6 @@
 variable "azurerm_resource_group_name" {
   type        = string
-  default     = "rg-student-tf"
+  default     = "srs2024-stu-g12"
   description = "Name of the resource group."
 }
 
@@ -50,5 +50,17 @@ variable "azurerm_web_app_name" {
 variable "shodan_api_key" {
   type        = string
   description = "Shodan API key"
+  sensitive   = true
+}
+
+variable "sql_administrator_user" {
+  type        = string
+  description = "Username for the SQL administrator"
+  default     = "psqladmin"
+}
+
+variable "sql_administrator_password" {
+  type        = string
+  description = "Password for the SQL administrator"
   sensitive   = true
 }

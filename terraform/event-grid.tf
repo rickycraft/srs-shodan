@@ -5,8 +5,9 @@ resource "azurerm_eventgrid_topic" "shodan" {
 }
 
 resource "azurerm_eventgrid_event_subscription" "consumer" {
-  name  = "shodan-srs-consumer"
-  scope = azurerm_eventgrid_topic.shodan.id
+  name       = "shodan-srs-consumer"
+  depends_on = [azurerm_linux_function_app.shodan, azurerm_eventgrid_topic.shodan]
+  scope      = azurerm_eventgrid_topic.shodan.id
 
   azure_function_endpoint {
     function_id                       = "${azurerm_linux_function_app.shodan.id}/functions/${var.azurerm_function_consumer_name}"

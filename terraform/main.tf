@@ -11,7 +11,7 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "rg-terraform-backend"
+    resource_group_name  = "srs2024-stu-g12"
     storage_account_name = "saterraformstatebackend"
     container_name       = "terraformstate"
     key                  = "terraform.tfstate"
@@ -22,6 +22,7 @@ terraform {
 
 provider "azurerm" {
   features {}
+  skip_provider_registration = true
 }
 
 # resource "azurerm_resource_group" "rg" {
