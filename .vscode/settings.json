@@ -1,4 +1,5 @@
 {
+  "prettier.configPath": "web/prettier.config.js",
   "azureFunctions.deploySubpath": "functions",
   "azureFunctions.projectSubpath": "functions",
   "azureFunctions.scmDoBuildDuringDeployment": true,
