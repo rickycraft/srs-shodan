@@ -29,6 +29,12 @@ resource "azurerm_linux_function_app" "shodan" {
     EVENTGRID_ENDPOINT = azurerm_eventgrid_topic.shodan.endpoint
     SHODAN_API_KEY     = var.shodan_api_key
   }
+
+  connection_string {
+    name  = "MAIN"
+    type  = "PostgreSQL"
+    value = local.postgresql_connection_string
+  }
 }
 
 resource "null_resource" "function_publish_profile" {

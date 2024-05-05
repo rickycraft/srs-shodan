@@ -50,6 +50,12 @@ resource "azurerm_linux_web_app" "next_app" {
     # DOCKER_REGISTRY_SERVER_PASSWORD = azurerm_container_registry.main.admin_password
   }
 
+  connection_string {
+    name  = "MAIN"
+    type  = "PostgreSQL"
+    value = local.postgresql_connection_string
+  }
+
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.web_app.id]

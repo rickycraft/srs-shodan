@@ -4,6 +4,6 @@ export default {
   schema: './src/server/db/schema.ts',
   driver: 'pg',
   dbCredentials: {
-    connectionString: process.env.DATABASE_URL!,
+    connectionString: process.env.POSTGRESQLCONNSTR_MAIN!,
   },
 } satisfies Config
