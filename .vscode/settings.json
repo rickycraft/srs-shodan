@@ -1,4 +1,10 @@
 {
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "prettier.configPath": "web/prettier.config.js",
   "azureFunctions.deploySubpath": "functions",
   "azureFunctions.projectSubpath": "functions",
