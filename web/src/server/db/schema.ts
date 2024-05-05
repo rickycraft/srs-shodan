@@ -33,6 +33,7 @@ export const accounts = pgTable(
     scope: text('scope'),
     id_token: text('id_token'),
     session_state: text('session_state'),
+    refresh_token_expires_in: integer('refresh_token_expires_in'), // only for github
   },
   (account) => ({
     compoundKey: primaryKey({
