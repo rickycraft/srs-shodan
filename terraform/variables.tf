@@ -64,3 +64,9 @@ variable "sql_administrator_password" {
   description = "Password for the SQL administrator"
   sensitive   = true
 }
+
+variable "web_nextauth_secret" {
+  type      = string
+  default   = "NextAuthSecret for the web app"
+  sensitive = true
+}

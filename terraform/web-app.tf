@@ -43,8 +43,12 @@ resource "azurerm_linux_web_app" "next_app" {
   }
 
   app_settings = {
+    # set application insights
     APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.main.instrumentation_key
     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
+    # add env variables
+    NEXTAUTH_SECRET = var.web_nextauth_secret
+    NEXTAUTH_URL    = "https://${var.azurerm_web_app_name}.azurewebsites.net"
     # use this to login with admin user
     # DOCKER_REGISTRY_SERVER_USERNAME = azurerm_container_registry.main.admin_username
     # DOCKER_REGISTRY_SERVER_PASSWORD = azurerm_container_registry.main.admin_password
