@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@auth/drizzle-adapter':
-    specifier: ^0.7.0
-    version: 0.7.0
+    specifier: ^1.0.1
+    version: 1.0.1
   '@radix-ui/react-slot':
     specifier: ^1.0.2
     version: 1.0.2(@types/react@18.2.79)(react@18.2.0)
@@ -18,8 +18,8 @@ dependencies:
     specifier: ^2.1.1
     version: 2.1.1
   drizzle-orm:
-    specifier: ^0.29.5
-    version: 0.29.5(@types/pg@8.11.6)(@types/react@18.2.79)(pg@8.11.5)(react@18.2.0)
+    specifier: ^0.30.10
+    version: 0.30.10(@types/pg@8.11.6)(@types/react@18.2.79)(pg@8.11.5)(react@18.2.0)
   lucide-react:
     specifier: ^0.373.0
     version: 0.373.0(react@18.2.0)
@@ -74,7 +74,7 @@ devDependencies:
     specifier: ^16.4.5
     version: 16.4.5
   drizzle-kit:
-    specifier: ^0.20.14
+    specifier: ^0.20.17
     version: 0.20.17
   eslint:
     specifier: ^8.57.0
@@ -112,8 +112,8 @@ packages:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
 
-  /@auth/core@0.27.0:
-    resolution: {integrity: sha512-3bydnRJIM/Al6mkYmb53MsC+6G8ojw3lLPzwgVnX4dCo6N2lrib6Wq6r0vxZIhuHGjLObqqtUfpeaEj5aeTHFg==}
+  /@auth/core@0.30.0:
+    resolution: {integrity: sha512-8AE4m/nk+4EIiVCJwxZAsJeAQuzpEC8M8768mmKVn60CGDdupKQkVhxbRlm5Qh7eNRCoFFME+0DvtaX2aXrYaA==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -135,10 +135,10 @@ packages:
       preact-render-to-string: 5.2.3(preact@10.11.3)
     dev: false
 
-  /@auth/drizzle-adapter@0.7.0:
-    resolution: {integrity: sha512-p/8cjrREiPPns78CT/a7VGl2TD78BNXtJ9TAXrw80bUInHd2xkEtk4CzXajWS/5r7qXE9n3r4BV9sISrf6Yqnw==}
+  /@auth/drizzle-adapter@1.0.1:
+    resolution: {integrity: sha512-E4np2F48p930q+YeQ5ipZPv/L+9gmQcB7g6NQQyux2wtanRNOXNW4TG8wMjSRfTzccNq161YZ8Fm5le/5snkGQ==}
     dependencies:
-      '@auth/core': 0.27.0
+      '@auth/core': 0.30.0
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
       - '@simplewebauthn/server'
@@ -607,18 +607,18 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@hono/node-server@1.11.0:
-    resolution: {integrity: sha512-TLIJq9TMtD1NEG1mVoqNUn1Ita0qSaB5XboZErjFBcO/GJYXwWY4dVdTi9G0lbxtu0x+hJXDItcLaFHb7rlFTw==}
+  /@hono/node-server@1.11.1:
+    resolution: {integrity: sha512-GW1Iomhmm1o4Z+X57xGby8A35Cu9UZLL7pSMdqDBkD99U5cywff8F+8hLk5aBTzNubnsFAvWQ/fZjNwPsEn9lA==}
     engines: {node: '>=18.14.1'}
     dev: true
 
-  /@hono/zod-validator@0.2.1(hono@4.2.7)(zod@3.23.4):
+  /@hono/zod-validator@0.2.1(hono@4.3.2)(zod@3.23.4):
     resolution: {integrity: sha512-HFoxln7Q6JsE64qz2WBS28SD33UB2alp3aRKmcWnNLDzEL1BLsWfbdX6e1HIiUprHYTIXf5y7ax8eYidKUwyaA==}
     peerDependencies:
       hono: '>=3.9.0'
       zod: ^3.19.1
     dependencies:
-      hono: 4.2.7
+      hono: 4.3.2
       zod: 3.23.4
     dev: true
 
@@ -1600,8 +1600,8 @@ packages:
     hasBin: true
     dependencies:
       '@esbuild-kit/esm-loader': 2.6.5
-      '@hono/node-server': 1.11.0
-      '@hono/zod-validator': 0.2.1(hono@4.2.7)(zod@3.23.4)
+      '@hono/node-server': 1.11.1
+      '@hono/zod-validator': 0.2.1(hono@4.3.2)(zod@3.23.4)
       camelcase: 7.0.1
       chalk: 5.3.0
       commander: 9.5.0
@@ -1610,7 +1610,7 @@ packages:
       esbuild-register: 3.5.0(esbuild@0.19.12)
       glob: 8.1.0
       hanji: 0.0.5
-      hono: 4.2.7
+      hono: 4.3.2
       json-diff: 0.9.0
       minimatch: 7.4.6
       semver: 7.6.0
@@ -1620,20 +1620,23 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.29.5(@types/pg@8.11.6)(@types/react@18.2.79)(pg@8.11.5)(react@18.2.0):
-    resolution: {integrity: sha512-jS3+uyzTz4P0Y2CICx8FmRQ1eplURPaIMWDn/yq6k4ShRFj9V7vlJk67lSf2kyYPzQ60GkkNGXcJcwrxZ6QCRw==}
+  /drizzle-orm@0.30.10(@types/pg@8.11.6)(@types/react@18.2.79)(pg@8.11.5)(react@18.2.0):
+    resolution: {integrity: sha512-IRy/QmMWw9lAQHpwbUh1b8fcn27S/a9zMIzqea1WNOxK9/4EB8gIo+FZWLiPXzl2n9ixGSv8BhsLZiOppWEwBw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
       '@cloudflare/workers-types': '>=3'
+      '@electric-sql/pglite': '>=0.1.1'
       '@libsql/client': '*'
       '@neondatabase/serverless': '>=0.1'
+      '@op-engineering/op-sqlite': '>=2'
       '@opentelemetry/api': ^1.4.1
       '@planetscale/database': '>=1'
       '@types/better-sqlite3': '*'
       '@types/pg': '*'
       '@types/react': '>=18'
       '@types/sql.js': '*'
-      '@vercel/postgres': '*'
+      '@vercel/postgres': '>=0.8.0'
+      '@xata.io/client': '*'
       better-sqlite3: '>=7'
       bun-types: '*'
       expo-sqlite: '>=13.2.0'
@@ -1650,9 +1653,13 @@ packages:
         optional: true
       '@cloudflare/workers-types':
         optional: true
+      '@electric-sql/pglite':
+        optional: true
       '@libsql/client':
         optional: true
       '@neondatabase/serverless':
+        optional: true
+      '@op-engineering/op-sqlite':
         optional: true
       '@opentelemetry/api':
         optional: true
@@ -1667,6 +1674,8 @@ packages:
       '@types/sql.js':
         optional: true
       '@vercel/postgres':
+        optional: true
+      '@xata.io/client':
         optional: true
       better-sqlite3:
         optional: true
@@ -2557,8 +2566,8 @@ packages:
     resolution: {integrity: sha512-2bsegYkkHO+h/9MGbn6KWcE45cHZgPANo5LXF7EvWdT0yT2EguSVO1nDgU5c8+ZOPwp2vMNa7YFsJhVcDR9Sdg==}
     dev: true
 
-  /hono@4.2.7:
-    resolution: {integrity: sha512-k1xHi86tJnRIVvqhFMBDGFKJ8r5O+bEsT4P59ZK59r0F300Xd910/r237inVfuT/VmE86RQQffX4OYNda6dLXw==}
+  /hono@4.3.2:
+    resolution: {integrity: sha512-wiZcF5N06tc232U11DnqW6hP8DNoypjsrxslKXfvOqOAkTdh7K1HLZJH/92Mf+urxUTGi96f1w4xx/1Qozoqiw==}
     engines: {node: '>=16.0.0'}
     dev: true
 
