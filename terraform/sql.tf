@@ -32,3 +32,23 @@ resource "azurerm_postgresql_flexible_server_database" "shodan" {
 locals {
   postgresql_connection_string = "postgresql://${azurerm_postgresql_flexible_server.main.fqdn}:5432/${azurerm_postgresql_flexible_server_database.shodan.name}?user=${var.sql_administrator_user}&password=${var.sql_administrator_password}&sslmode=require"
 }
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "azure" {
+  name             = "AllowAzure"
+  depends_on       = [azurerm_postgresql_flexible_server.main]
+  server_id        = azurerm_postgresql_flexible_server.main.id
+  start_ip_address = "0.0.0.0"
+  end_ip_address   = "0.0.0.0"
+}
+
+data "http" "my_ip" {
+  url = "https://ifconfig.me"
+}
+
+resource "azurerm_postgresql_flexible_server_firewall_rule" "developer" {
+  name             = "AllowDeveloper"
+  depends_on       = [azurerm_postgresql_flexible_server.main, data.http.my_ip]
+  server_id        = azurerm_postgresql_flexible_server.main.id
+  start_ip_address = data.http.my_ip.response_body
+  end_ip_address   = data.http.my_ip.response_body
+}

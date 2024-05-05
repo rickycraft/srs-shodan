@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/null"
       version = "~> 3.2.2"
     }
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 3.4.2"
+    }
   }
 
   backend "azurerm" {
