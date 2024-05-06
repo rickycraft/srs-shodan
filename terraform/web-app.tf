@@ -39,7 +39,7 @@ resource "azurerm_linux_web_app" "next_app" {
     # }
 
     http2_enabled     = true
-    health_check_path = "/"
+    health_check_path = "/api/health"
   }
 
   app_settings = {

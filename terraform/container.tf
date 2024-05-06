@@ -4,13 +4,6 @@ resource "azurerm_user_assigned_identity" "registry" {
   location            = var.azurerm_region
 }
 
-# resource "azurerm_role_assignment" "registry" {
-#   depends_on           = [azurerm_user_assigned_identity.registry]
-#   principal_id         = azurerm_user_assigned_identity.registry.principal_id
-#   scope                = "${data.azurerm_subscription.primary.id}/resourceGroups/${var.azurerm_resource_group_name}"
-#   role_definition_name = "AcrPush"
-# }
-
 resource "azurerm_container_registry" "main" {
   name                = "shodansrs"
   resource_group_name = var.azurerm_resource_group_name

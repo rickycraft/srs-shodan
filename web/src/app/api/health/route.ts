@@ -4,14 +4,9 @@ import { users } from '~/server/db/schema'
 
 async function handler(req: Request) {
   try {
-    const usr = await db
-      .select({
-        id: users.id,
-        username: users.name,
-      })
-      .from(users)
+    const usr = await db.select({ id: users.id }).from(users)
 
-    return NextResponse.json(usr)
+    return NextResponse.json({ userCount: usr.length })
   } catch (error) {
     return NextResponse.json(error, { status: 500 })
   }
