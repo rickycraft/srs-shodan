@@ -12,12 +12,12 @@ resource "azurerm_user_assigned_identity" "web_app" {
   location            = var.azurerm_region
 }
 
-resource "azurerm_role_assignment" "web_app" {
-  depends_on           = [azurerm_user_assigned_identity.web_app]
-  principal_id         = azurerm_user_assigned_identity.web_app.principal_id
-  scope                = "${data.azurerm_subscription.primary.id}/resourceGroups/${var.azurerm_resource_group_name}"
-  role_definition_name = "AcrPull"
-}
+# resource "azurerm_role_assignment" "web_app" {
+#   depends_on           = [azurerm_user_assigned_identity.web_app]
+#   principal_id         = azurerm_user_assigned_identity.web_app.principal_id
+#   scope                = "${data.azurerm_subscription.primary.id}/resourceGroups/${var.azurerm_resource_group_name}"
+#   role_definition_name = "AcrPull"
+# }
 
 resource "azurerm_linux_web_app" "next_app" {
   name                = var.azurerm_web_app_name
@@ -29,8 +29,8 @@ resource "azurerm_linux_web_app" "next_app" {
 
   site_config {
     # login to the registry with managed identity
-    container_registry_use_managed_identity       = true
-    container_registry_managed_identity_client_id = azurerm_user_assigned_identity.web_app.principal_id
+    # container_registry_use_managed_identity       = true
+    # container_registry_managed_identity_client_id = azurerm_user_assigned_identity.web_app.principal_id
 
     # no need to set it here, will be setup in github actions
     # application_stack {
@@ -50,8 +50,8 @@ resource "azurerm_linux_web_app" "next_app" {
     NEXTAUTH_SECRET = var.web_nextauth_secret
     NEXTAUTH_URL    = "https://${var.azurerm_web_app_name}.azurewebsites.net"
     # use this to login with admin user
-    # DOCKER_REGISTRY_SERVER_USERNAME = azurerm_container_registry.main.admin_username
-    # DOCKER_REGISTRY_SERVER_PASSWORD = azurerm_container_registry.main.admin_password
+    DOCKER_REGISTRY_SERVER_USERNAME = azurerm_container_registry.main.admin_username
+    DOCKER_REGISTRY_SERVER_PASSWORD = azurerm_container_registry.main.admin_password
   }
 
   connection_string {
