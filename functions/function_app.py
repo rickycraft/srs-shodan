@@ -13,10 +13,10 @@ WEBHOOK_URL = "https://webhook.rroveri.com/azure"
 @app.function_name(name="ShodanProducer")
 @app.route(route="publish", auth_level=func.AuthLevel.ANONYMOUS)
 def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+    logging.debug('Python HTTP trigger function processed a request.')
     try:
-        logging.info(req.get_json())
         data = req.get_json()
+        logging.info(json.dumps(data, indent=2))
         producer.send_value(data)
         return func.HttpResponse(
             "This HTTP triggered function executed successfully.\n",
@@ -31,9 +31,9 @@ def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
 @app.function_name(name="ShodanConsumer")
 @app.event_grid_trigger(arg_name="azeventgrid")
 def shodan_consumer(azeventgrid: func.EventGridEvent):
-    logging.info('Python EventGrid trigger processed an event\n')
+    logging.debug('Python EventGrid trigger processed an event\n')
     data = azeventgrid.get_json()
-    logging.info(data)
+    logging.info(json.dumps(data, indent=2))
 
     json_data = json.dumps(data).encode('utf-8')
     req = urllib.request.Request(WEBHOOK_URL, data=json_data, method='POST')
