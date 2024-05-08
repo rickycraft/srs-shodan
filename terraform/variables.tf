@@ -53,6 +53,12 @@ variable "shodan_api_key" {
   sensitive   = true
 }
 
+variable "telegram_api_key" {
+  type        = string
+  description = "Telegram API key"
+  sensitive   = true
+}
+
 variable "sql_administrator_user" {
   type        = string
   description = "Username for the SQL administrator"

@@ -28,6 +28,7 @@ resource "azurerm_linux_function_app" "shodan" {
     EVENTGRID_KEY      = azurerm_eventgrid_topic.shodan.primary_access_key
     EVENTGRID_ENDPOINT = azurerm_eventgrid_topic.shodan.endpoint
     SHODAN_API_KEY     = var.shodan_api_key
+    TELEGRAM_API_KEY   = var.telegram_api_key
   }
 
   connection_string {
