@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { db } from '~/server/db'
 import { users } from '~/server/db/schema'
 
-async function handler(req: Request) {
+async function handler(_req: Request) {
   try {
     const usr = await db.select({ id: users.id }).from(users)
 

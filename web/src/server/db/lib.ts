@@ -30,7 +30,7 @@ const createShodanAlert = async (ip: string, trigger: string) => {
   // call the azure function to create the alert
   const id = '1234567890'
   // insert the alert into the database
-  const res = await db.insert(shodanAlert).values({ id, ip, trigger })
+  await db.insert(shodanAlert).values({ id, ip, trigger })
 
   return id
 }
@@ -38,7 +38,7 @@ const createShodanAlert = async (ip: string, trigger: string) => {
 export const registerAlert = async (
   userId: string,
   ip: string,
-  trigger: string = 'any'
+  trigger = 'any'
 ) => {
   // check if alert already exists
   const alert = await db.query.shodanAlert.findFirst({
@@ -58,19 +58,19 @@ export const registerAlert = async (
     return notification.alertId
   }
   // create the notification
-  const res = await db.insert(Notification).values({ userId, alertId })
+  await db.insert(Notification).values({ userId, alertId })
   return alertId
 }
 
 const removeShodanAlert = async (alertId: string) => {
   // call the azure function to remove the alert
   // remove the alert from the database
-  const res = await db.delete(shodanAlert).where(eq(shodanAlert.id, alertId))
+  await db.delete(shodanAlert).where(eq(shodanAlert.id, alertId))
 }
 
 export const unregisterAlert = async (userId: string, alertId: string) => {
   // delete the notification
-  const res = await db
+  await db
     .delete(Notification)
     .where(
       and(eq(Notification.userId, userId), eq(Notification.alertId, alertId))
