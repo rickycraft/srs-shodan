@@ -107,9 +107,9 @@ export const notification = pgTable(
     userId: text('userId')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
-    alertId: varchar('alertId', { length: 32 }).references(
-      () => shodanAlert.id
-    ),
+    alertId: varchar('alertId', { length: 32 })
+      .references(() => shodanAlert.id)
+      .notNull(),
   },
   (table) => {
     return {

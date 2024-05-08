@@ -6,7 +6,7 @@ END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "notification" (
 	"userId" text NOT NULL,
-	"alertId" varchar(32),
+	"alertId" varchar(32) NOT NULL,
 	CONSTRAINT "notification_userId_alertId_pk" PRIMARY KEY("userId","alertId")
 );
 --> statement-breakpoint
