@@ -23,6 +23,9 @@ on:
     paths:
       - "functions/**"
       - ".github/workflows/*"
+    branches:
+      - main
+      - functions
 
 env:
   AZURE_FUNCTIONAPP_NAME: "shodan-srs" # set this to your function app name on Azure

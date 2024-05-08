@@ -5,6 +5,9 @@ on:
     paths:
       - "web/**"
       - ".github/workflows/*"
+    branches:
+      - main
+      - web
 
 env:
   GITHUB_REGISTRY: ghcr.io

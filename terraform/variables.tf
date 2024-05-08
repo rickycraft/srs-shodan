@@ -36,7 +36,7 @@ variable "repo_name" {
 
 variable "docker_image_name" {
   type        = string
-  default     = "rickycraft/srs-shodan:main"
+  default     = "shodan-srs-next:main"
   description = "The docker image to use for the web app."
 
 }

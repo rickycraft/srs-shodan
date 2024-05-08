@@ -24,7 +24,7 @@ resource "azurerm_linux_web_app" "next_app" {
   resource_group_name = var.azurerm_resource_group_name
   location            = var.azurerm_region
   service_plan_id     = azurerm_service_plan.app_service.id
-  depends_on          = [azurerm_application_insights.main, azurerm_service_plan.app_service]
+  depends_on          = [azurerm_application_insights.main, azurerm_service_plan.app_service, azurerm_container_registry.main]
   https_only          = true
 
   site_config {
@@ -32,11 +32,14 @@ resource "azurerm_linux_web_app" "next_app" {
     # container_registry_use_managed_identity       = true
     # container_registry_managed_identity_client_id = azurerm_user_assigned_identity.web_app.principal_id
 
-    # no need to set it here, will be setup in github actions
-    # application_stack {
-    # docker_image_name   = var.docker_image_name
-    # docker_registry_url = "https://ghcr.io"
-    # }
+
+    application_stack {
+      docker_image_name   = var.docker_image_name
+      docker_registry_url = "https://${azurerm_container_registry.main.login_server}"
+      # use this to login with admin user
+      docker_registry_username = azurerm_container_registry.main.admin_username
+      docker_registry_password = azurerm_container_registry.main.admin_password
+    }
 
     http2_enabled     = true
     health_check_path = "/api/health"
@@ -49,9 +52,6 @@ resource "azurerm_linux_web_app" "next_app" {
     # add env variables
     NEXTAUTH_SECRET = var.web_nextauth_secret
     NEXTAUTH_URL    = "https://${var.azurerm_web_app_name}.azurewebsites.net"
-    # use this to login with admin user
-    DOCKER_REGISTRY_SERVER_USERNAME = azurerm_container_registry.main.admin_username
-    DOCKER_REGISTRY_SERVER_PASSWORD = azurerm_container_registry.main.admin_password
   }
 
   connection_string {
