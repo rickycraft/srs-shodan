@@ -1,9 +1,13 @@
 import {
+  inet,
   integer,
+  pgEnum,
   pgTable,
   primaryKey,
   text,
   timestamp,
+  unique,
+  varchar,
 } from 'drizzle-orm/pg-core'
 import type { AdapterAccount } from 'next-auth/adapters'
 
@@ -60,4 +64,59 @@ export const verificationTokens = pgTable(
   (vt) => ({
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   })
+)
+
+export const notificationEnum = pgEnum('notificationType', [
+  'telegram',
+  'email',
+])
+
+export const userToken = pgTable(
+  'userToken',
+  {
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    type: notificationEnum('type').notNull(),
+    value: varchar('value', { length: 255 }).notNull(),
+  },
+  (table) => {
+    return {
+      notificationUserIdTypeValuePk: primaryKey({
+        columns: [table.userId, table.type],
+        name: 'notification_userId_type_pk',
+      }),
+    }
+  }
+)
+
+export const shodanAlert = pgTable(
+  'shodan_alert',
+  {
+    id: varchar('id', { length: 32 }).primaryKey().notNull(),
+    ip: inet('ip').notNull(),
+    trigger: varchar('trigger', { length: 255 }).default('any').notNull(),
+  },
+  (table) => ({
+    shodanAlertUnique: unique().on(table.ip, table.trigger),
+  })
+)
+export const notification = pgTable(
+  'notification',
+  {
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    alertId: varchar('alertId', { length: 32 }).references(
+      () => shodanAlert.id
+    ),
+  },
+  (table) => {
+    return {
+      notificationUserIdAlertIdPk: primaryKey({
+        columns: [table.userId, table.alertId],
+        name: 'notification_userId_alertId_pk',
+      }),
+    }
+  }
 )

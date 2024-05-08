@@ -15,6 +15,13 @@
       "when": 1714904598954,
       "tag": "0001_minor_microchip",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1715199684924,
+      "tag": "0002_tricky_lizard",
+      "breakpoints": true
     }
   ]
 }
