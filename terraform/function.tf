@@ -64,7 +64,7 @@ resource "azurerm_monitor_diagnostic_setting" "function" {
 
   metric {
     category = "AllMetrics"
-    enabled  = false
+    enabled  = true
   }
 
 }

@@ -98,6 +98,6 @@ resource "azurerm_monitor_diagnostic_setting" "web_app" {
 
   metric {
     category = "AllMetrics"
-    enabled  = false
+    enabled  = true
   }
 }
