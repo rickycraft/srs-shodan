@@ -60,39 +60,5 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
         bot.send_message(chat_id,'Qui ci sarà il link di registrazione')
     elif text == '/list':
         bot.send_message(chat_id,'Qui ci sarà una lista di ip')
-    elif text.startswith("/add"):
-
-        # Controllo Validità IP
-        ipv4_pattern = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
-        ip_match = re.search(ipv4_pattern, text)
-        if ip_match:
-            ip_address = ip_match.group(0)
-            print("Extracted IP address:", ip_address)
-
-            # Check if it's a valid IPv4 address
-            parts = ip_address.split('.')
-            if len(parts) == 4 and all(0 <= int(part) <= 255 for part in parts):
-                bot.send_message("Qui la parte dove controllo che non sia già in db e dò conferma che lo ho salvato")
-            else:
-                bot.send_message("IP not valid")
-        else:
-            bot.send_message("No IP found")
-    elif text.startswith("/remove"):
-         # Controllo Validità IP
-        ipv4_pattern = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
-        ip_match = re.search(ipv4_pattern, text)
-        if ip_match:
-            ip_address = ip_match.group(0)
-            print("Extracted IP address:", ip_address)
-
-            # Check if it's a valid IPv4 address
-            parts = ip_address.split('.')
-            if len(parts) == 4 and all(0 <= int(part) <= 255 for part in parts):
-                bot.send_message("Qui la parte dove controllo che sia in db e dò conferma che lo ho rimosso")
-            else:
-                bot.send_message("IP not valid")
-        else:
-            bot.send_message("No IP found")
-
 
     return func.HttpResponse("OK", status_code=200)
