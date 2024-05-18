@@ -123,7 +123,7 @@ export const notification = pgTable(
   }
 )
 
-export const ipView = pgView('ip_view').as((qb) =>
+export const ipView = pgView('telegram_ip').as((qb) =>
   qb
     .select({
       ip: shodanAlert.ip,
@@ -134,4 +134,5 @@ export const ipView = pgView('ip_view').as((qb) =>
     .from(shodanAlert)
     .leftJoin(notification, eq(shodanAlert.id, notification.alertId))
     .leftJoin(userToken, eq(notification.userId, userToken.userId))
+    .where(eq(userToken.type, notificationEnum.enumValues[0]))
 )
