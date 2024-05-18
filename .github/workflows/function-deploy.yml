@@ -62,6 +62,7 @@ jobs:
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pip install pylint
           pylint --errors-only function_app.py
           popd
 
