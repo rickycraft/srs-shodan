@@ -14,5 +14,6 @@
   "azureFunctions.projectRuntime": "~4",
   "azureFunctions.projectLanguageModel": 2,
   "azurite.location": ".azurite",
+  "pylint.args": [ "--rcfile=functions/.pylintrc" ],
   "debug.internalConsoleOptions": "neverOpen"
 }
