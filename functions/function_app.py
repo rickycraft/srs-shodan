@@ -3,10 +3,7 @@
 import json
 import logging
 import os
-import re
-import urllib.request
 import urllib
-import urllib.parse
 
 import azure.functions as func
 import producer
@@ -24,7 +21,7 @@ WEBHOOK_URL = "https://webhook.rroveri.com/azure"
 def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
     logging.debug('Python HTTP trigger function processed a request.')
     try:
-        data = req.get_json()
+        data = req.get_json()['data']
         logging.info(json.dumps(data, indent=2))
         producer.send_value(data)
         return func.HttpResponse(
@@ -51,9 +48,9 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
         res = response.read()
         logging.info(res)
 
-
+@app.function_name(name="Startcommand")
 @app.route(route="StartCommand", auth_level=func.AuthLevel.ANONYMOUS)
-def Startcommand(req: func.HttpRequest) -> func.HttpResponse:
+def start_command(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     data = req.get_json()
