@@ -62,7 +62,7 @@ jobs:
         shell: bash
         run: |
           pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          python -m pylint --errors-only function_app.py
+          pylint --errors-only function_app.py
           popd
 
       - name: "Run Azure Functions Action"
