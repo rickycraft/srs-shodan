@@ -1,8 +1,10 @@
+import { eq } from 'drizzle-orm'
 import {
   inet,
   integer,
   pgEnum,
   pgTable,
+  pgView,
   primaryKey,
   text,
   timestamp,
@@ -119,4 +121,17 @@ export const notification = pgTable(
       }),
     }
   }
+)
+
+export const ipView = pgView('ip_view').as((qb) =>
+  qb
+    .select({
+      ip: shodanAlert.ip,
+      alertId: shodanAlert.id,
+      userId: userToken.userId,
+      token: userToken.value,
+    })
+    .from(shodanAlert)
+    .leftJoin(notification, eq(shodanAlert.id, notification.alertId))
+    .leftJoin(userToken, eq(notification.userId, userToken.userId))
 )
