@@ -1,5 +1,6 @@
 # pylint: disable=missing-function-docstring, missing-module-docstring
 
+import logging
 import os
 
 import psycopg2
@@ -39,4 +40,5 @@ def send_value(data):
     events = map(create_event, message_data)
 
     # Send the event
+    logging.info(events)
     client.send(events)
