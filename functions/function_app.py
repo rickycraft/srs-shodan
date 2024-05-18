@@ -1,5 +1,3 @@
-# pylint: disable=missing-function-docstring, missing-module-docstring
-
 import json
 import logging
 import os
@@ -12,8 +10,6 @@ import telebot
 app = func.FunctionApp()
 bot = telebot.TeleBot(os.environ["TELEGRAM_API_KEY"])
 
-
-
 WEBHOOK_URL = "https://webhook.rroveri.com/azure"
 
 @app.function_name(name="ShodanProducer")
@@ -22,7 +18,7 @@ def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
     logging.debug('Python HTTP trigger function processed a request.')
     try:
         data = req.get_json()['data']
-        logging.info(json.dumps(data, indent=2))
+        logging.debug(json.dumps(data, indent=2))
         producer.send_value(data)
         return func.HttpResponse(
             "ShodanProducer OK\n",

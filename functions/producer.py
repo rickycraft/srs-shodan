@@ -1,5 +1,3 @@
-# pylint: disable=missing-function-docstring, missing-module-docstring
-
 import logging
 import os
 
@@ -33,7 +31,7 @@ def send_value(data):
     client = EventGridPublisherClient(endpoint, credential)
 
     ip = data["ip_str"]
-    message = data["data"]
+    message = str(data["data"])
 
     chat_ids = search_chat_id(ip)
     # if no notifications are found, return
@@ -41,9 +39,10 @@ def send_value(data):
         logging.warning("No chat_id found for %s", ip)
         return
 
-    message_data = map(lambda x: {"token": x, "message": message, "ip": ip}, chat_ids)
+    message_data = list(map(lambda x: {"chat_id": x[0], "message": message, "ip": ip}, chat_ids))
+    logging.info(message_data)
     events = list(map(create_event, message_data))
 
     # Send the event
-    logging.info(events)
+    logging.info("Sending %d events to EventGrid", len(events))
     client.send(events)
