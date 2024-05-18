@@ -27,4 +27,5 @@ terraform/terraform.tfvars
 # functions
 functions/env
 functions/*/.venv
+functions/.env
 .azurite

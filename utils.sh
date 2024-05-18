@@ -22,6 +22,7 @@ if [ $1 == "start" ]; then
   pushd functions
   source env/bin/activate
   pip3 install -r requirements.txt >/dev/null
+  source .env
   func host start
   popd
   exit 0
