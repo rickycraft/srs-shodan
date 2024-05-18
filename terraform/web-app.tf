@@ -52,6 +52,9 @@ resource "azurerm_linux_web_app" "next_app" {
     # add env variables
     NEXTAUTH_SECRET = var.web_nextauth_secret
     NEXTAUTH_URL    = "https://${var.azurerm_web_app_name}.azurewebsites.net"
+    # add function
+    AZURE_FUNC_TOKEN = data.azurerm_function_app_host_keys.default.default_function_key
+    AZURE_FUNC_NAME  = azurerm_linux_function_app.shodan.name
   }
 
   connection_string {

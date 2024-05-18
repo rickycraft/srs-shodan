@@ -29,6 +29,8 @@ resource "azurerm_linux_function_app" "shodan" {
     EVENTGRID_ENDPOINT = azurerm_eventgrid_topic.shodan.endpoint
     SHODAN_API_KEY     = var.shodan_api_key
     TELEGRAM_API_KEY   = var.telegram_api_key
+    # Azure defaults
+    AzureWebJobsFeatureFlags = "EnableWorkerIndexing"
   }
 
   connection_string {
@@ -67,4 +69,10 @@ resource "azurerm_monitor_diagnostic_setting" "function" {
     enabled  = true
   }
 
+}
+
+data "azurerm_function_app_host_keys" "default" {
+  depends_on          = [azurerm_linux_function_app.shodan]
+  name                = azurerm_linux_function_app.shodan.name
+  resource_group_name = var.azurerm_resource_group_name
 }
