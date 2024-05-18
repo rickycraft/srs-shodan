@@ -58,3 +58,6 @@ Core:
 Extra:
 - Dependency analyzer (security)
 - Static code analyzer
+
+Limitazioni:
+- Impossibilità di utilizzare le managed identity per maggiore sicurezza a causa delle impostazioni del tenant
