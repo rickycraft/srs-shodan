@@ -22,7 +22,7 @@ def search_chat_id(ip):
     with psycopg2.connect(os.environ["POSTGRESQLCONNSTR_MAIN"]) as conn:
         # Use the cursor as a context manager
         with conn.cursor() as cursor:
-            cursor.execute("SELECT token FROM telegram_ip WHERE ip = %s", (ip))
+            cursor.execute("SELECT token FROM telegram_ip WHERE ip = %s", (ip,))
             token = cursor.fetchall()
             return token
 
