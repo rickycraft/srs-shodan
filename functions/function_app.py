@@ -59,3 +59,9 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
         bot.send_message(chat_id, "No Message Found")
 
     return func.HttpResponse("OK",status_code=200)
+
+@app.function_name(name="AuthTest")
+@app.route(route="AuthTest", auth_level=func.AuthLevel.FUNCTION)
+def auth_test(req: func.HttpRequest) -> func.HttpResponse:
+    logging.info('AuthTest success for %s', req.url)
+    return func.HttpResponse("OK",status_code=200)
