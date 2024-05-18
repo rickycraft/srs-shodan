@@ -25,7 +25,7 @@ def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
         logging.info(json.dumps(data, indent=2))
         producer.send_value(data)
         return func.HttpResponse(
-            "This HTTP triggered function executed successfully.\n",
+            "ShodanProducer OK\n",
             status_code=200
             )
     except Exception as err:

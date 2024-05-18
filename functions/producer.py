@@ -36,8 +36,13 @@ def send_value(data):
     message = data["data"]
 
     chat_ids = search_chat_id(ip)
+    # if no notifications are found, return
+    if len(chat_ids) == 0:
+        logging.warning("No chat_id found for %s", ip)
+        return
+
     message_data = map(lambda x: {"token": x, "message": message, "ip": ip}, chat_ids)
-    events = map(create_event, message_data)
+    events = list(map(create_event, message_data))
 
     # Send the event
     logging.info(events)
