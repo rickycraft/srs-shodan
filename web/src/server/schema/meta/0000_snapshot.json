@@ -1,10 +1,10 @@
 {
-  "id": "904fc1aa-ac2f-46e9-82d9-17c41156177b",
+  "id": "fa63b6ea-1c0f-45e0-b5ed-0212f9002982",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "account": {
+    "public.account": {
       "name": "account",
       "schema": "",
       "columns": {
@@ -73,6 +73,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "refresh_token_expires_in": {
+          "name": "refresh_token_expires_in",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -102,7 +108,64 @@
       },
       "uniqueConstraints": {}
     },
-    "session": {
+    "public.notification": {
+      "name": "notification",
+      "schema": "",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alertId": {
+          "name": "alertId",
+          "type": "varchar(32)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "notification_userId_user_id_fk": {
+          "name": "notification_userId_user_id_fk",
+          "tableFrom": "notification",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "notification_alertId_shodan_alert_id_fk": {
+          "name": "notification_alertId_shodan_alert_id_fk",
+          "tableFrom": "notification",
+          "tableTo": "shodan_alert",
+          "columnsFrom": [
+            "alertId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "notification_userId_alertId_pk": {
+          "name": "notification_userId_alertId_pk",
+          "columns": [
+            "userId",
+            "alertId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.session": {
       "name": "session",
       "schema": "",
       "columns": {
@@ -144,7 +207,96 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.shodan_alert": {
+      "name": "shodan_alert",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(32)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ip": {
+          "name": "ip",
+          "type": "inet",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "trigger": {
+          "name": "trigger",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'any'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "shodan_alert_ip_trigger_unique": {
+          "name": "shodan_alert_ip_trigger_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "ip",
+            "trigger"
+          ]
+        }
+      }
+    },
+    "public.userToken": {
+      "name": "userToken",
+      "schema": "",
+      "columns": {
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "notificationType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "userToken_userId_user_id_fk": {
+          "name": "userToken_userId_user_id_fk",
+          "tableFrom": "userToken",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "notification_userId_type_pk": {
+          "name": "notification_userId_type_pk",
+          "columns": [
+            "userId",
+            "type"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -184,7 +336,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "verificationToken": {
+    "public.verificationToken": {
       "name": "verificationToken",
       "schema": "",
       "columns": {
@@ -221,7 +373,16 @@
       "uniqueConstraints": {}
     }
   },
-  "enums": {},
+  "enums": {
+    "public.notificationType": {
+      "name": "notificationType",
+      "schema": "public",
+      "values": [
+        "telegram",
+        "email"
+      ]
+    }
+  },
   "schemas": {},
   "_meta": {
     "columns": {},

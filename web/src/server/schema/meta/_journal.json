@@ -4,23 +4,9 @@
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1714902307101,
-      "tag": "0000_talented_celestials",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1714904598954,
-      "tag": "0001_minor_microchip",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1715199684924,
-      "tag": "0002_tricky_lizard",
+      "version": "6",
+      "when": 1716020141763,
+      "tag": "0000_crazy_texas_twister",
       "breakpoints": true
     }
   ]
