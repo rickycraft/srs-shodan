@@ -1,21 +1,35 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+import {
+  shodan_add_alert,
+  shodan_alerts,
+  shodan_del_alert,
+  shodan_get_alert,
+} from '~/server/shodan'
 
-async function handler(_req: Request) {
+async function handler(req: NextRequest) {
   try {
-    const token = process.env.AZURE_FUNC_TOKEN
-    const name = process.env.AZURE_FUNC_NAME
-    const response = await fetch(
-      `https://${name}.azurewebsites.net/AuthTest?code=${token}`
-    )
-    if (response.status !== 200) {
-      throw new Error('Failed to authenticate with Azure Function')
+    const method = req.method as 'GET' | 'POST' | 'DELETE'
+    const ip = req.nextUrl.searchParams.get('ip')
+    if (!ip) {
+      const res = await shodan_alerts()
+      console.log(res)
+    } else {
+      switch (method) {
+        case 'GET':
+          console.log(await shodan_get_alert(ip))
+          break
+        case 'POST':
+          console.log(await shodan_add_alert(ip))
+          break
+        case 'DELETE':
+          console.log(await shodan_del_alert(ip))
+          break
+      }
     }
-    const body = await response.text()
-    console.log(body)
-    return NextResponse.json({ ok: true, body })
-  } catch (error) {
-    return NextResponse.json(error, { status: 500 })
+    return NextResponse.json({ ok: true })
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
   }
 }
 
-export { handler as GET, handler as POST }
+export { handler as DELETE, handler as GET, handler as POST }
