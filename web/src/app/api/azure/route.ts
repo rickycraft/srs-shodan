@@ -6,27 +6,27 @@ import {
   shodan_get_alert,
 } from '~/server/shodan'
 
+async function call_shodan(method: string, ip: string) {
+  switch (method) {
+    case 'GET':
+      return await shodan_get_alert(ip)
+      break
+    case 'POST':
+      return await shodan_add_alert(ip)
+      break
+    case 'DELETE':
+      return await shodan_del_alert(ip)
+      break
+  }
+}
+
 async function handler(req: NextRequest) {
   try {
     const method = req.method as 'GET' | 'POST' | 'DELETE'
     const ip = req.nextUrl.searchParams.get('ip')
-    if (!ip) {
-      const res = await shodan_alerts()
-      console.log(res)
-    } else {
-      switch (method) {
-        case 'GET':
-          console.log(await shodan_get_alert(ip))
-          break
-        case 'POST':
-          console.log(await shodan_add_alert(ip))
-          break
-        case 'DELETE':
-          console.log(await shodan_del_alert(ip))
-          break
-      }
-    }
-    return NextResponse.json({ ok: true })
+    const res = ip ? await call_shodan(method, ip) : await shodan_alerts()
+    console.log(res)
+    return NextResponse.json(res)
   } catch (error) {
     return NextResponse.json(error, { status: 500 })
   }
