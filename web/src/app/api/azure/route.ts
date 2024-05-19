@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import {
   shodan_add_alert,
   shodan_alerts,
@@ -27,8 +27,8 @@ async function handler(req: NextRequest) {
       }
     }
     return NextResponse.json({ ok: true })
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
+  } catch (error) {
+    return NextResponse.json(error, { status: 500 })
   }
 }
 

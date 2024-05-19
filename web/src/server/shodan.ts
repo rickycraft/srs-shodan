@@ -58,6 +58,6 @@ export const shodan_alerts = async () => {
     return []
   }
 
-  const json = await response.json()
-  return json as list_alert
+  const json = (await response.json()) as list_alert
+  return json
 }
