@@ -5,6 +5,7 @@ import urllib
 
 import azure.functions as func
 import producer
+import shodan_api
 import telebot
 
 app = func.FunctionApp()
@@ -65,3 +66,22 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
 def auth_test(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('AuthTest success for %s', req.url)
     return func.HttpResponse("OK",status_code=200)
+
+@app.function_name(name="ShodanAPI")
+@app.route(route="ShodanAPI", auth_level=func.AuthLevel.FUNCTION)
+def shodan_alert_api(req: func.HttpRequest) -> func.HttpResponse:
+    ip = req.params.get('ip')
+    if not ip:
+        return shodan_api.handle_list()
+    logging.info('ShodanAPI method %s ip %s', req.method, ip)
+    aid = shodan_api.check_alert(ip)
+    # handle different http methods
+    match req.method:
+        case 'GET':
+            return shodan_api.handle_get(ip, aid)
+        case 'POST':
+            return shodan_api.handle_post(ip, aid)
+        case 'DELETE':
+            return shodan_api.handle_delete(ip, aid)
+
+    return func.HttpResponse("Not supported http method",status_code=405)
