@@ -76,3 +76,14 @@ variable "web_nextauth_secret" {
   default   = "NextAuthSecret for the web app"
   sensitive = true
 }
+
+variable "web_github_client_id" {
+  type    = string
+  default = "GitHub Client ID for the web app"
+}
+
+variable "web_github_client_secret" {
+  type      = string
+  default   = "GitHub Client Secret for the web app"
+  sensitive = true
+}

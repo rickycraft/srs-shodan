@@ -50,8 +50,10 @@ resource "azurerm_linux_web_app" "next_app" {
     APPINSIGHTS_INSTRUMENTATIONKEY        = azurerm_application_insights.main.instrumentation_key
     APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.main.connection_string
     # add env variables
-    NEXTAUTH_SECRET = var.web_nextauth_secret
-    NEXTAUTH_URL    = "https://${var.azurerm_web_app_name}.azurewebsites.net"
+    NEXTAUTH_SECRET      = var.web_nextauth_secret
+    NEXTAUTH_URL         = "https://${var.azurerm_web_app_name}.azurewebsites.net"
+    GITHUB_CLIENT_ID     = var.web_github_client_id
+    GITHUB_CLIENT_SECRET = var.web_github_client_secret
     # add function
     AZURE_FUNC_TOKEN = data.azurerm_function_app_host_keys.default.default_function_key
     AZURE_FUNC_NAME  = azurerm_linux_function_app.shodan.name
