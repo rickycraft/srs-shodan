@@ -57,7 +57,7 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
     if text == '/start':
         bot.send_message(chat_id, "Qui ci sarà il link di registrazione")
     else:
-        bot.send_message(chat_id, "No Message Found")
+        bot.send_message(chat_id, chat_id)
 
     return func.HttpResponse("OK",status_code=200)
 
