@@ -78,13 +78,16 @@ def list_triggers():
 
 def response(msg: any, status_code: int):
     """Return a response object."""
-    return HttpResponse(json.dumps(msg), mimetype='application/json', status_code=status_code)
+    if status_code == 200:
+        return HttpResponse(json.dumps(msg), mimetype='application/json', status_code=status_code)
+    else:
+        return HttpResponse(msg, status_code=status_code)
 
 def handle_get(ip: dict, aid: str | None):
     if aid:
         return response({'ip': ip, 'aid': aid}, status_code=200)
 
-    return response({'error': f"no alert found for {ip}"}, status_code=404)
+    return response(f"no alert found for {ip}", status_code=404)
 
 def handle_post(ip: str, aid: str | None):
     if aid:
@@ -93,7 +96,7 @@ def handle_post(ip: str, aid: str | None):
         new_alert = add_alert(ip)
         return response({'ip': ip, 'aid': new_alert}, status_code=200)
     except Exception as err:
-        return response({'error': f"error creating alert: {err}"}, status_code=500)
+        return response(f"error creating alert: {err}", status_code=500)
 
 def handle_delete(ip: str, aid: str | None):
     if aid:
@@ -101,10 +104,12 @@ def handle_delete(ip: str, aid: str | None):
             del_alert(aid)
             return response({'ip': ip, 'aid': aid}, status_code=200)
         except Exception as err:
-            return response({'error': f"error deleting alert: {err}"}, status_code=500)
+            return response(f"error deleting alert: {err}", status_code=500)
 
-    return response({'error': f"no alert found for {ip}"}, status_code=404)
+    return response(f"no alert found for {ip}", status_code=404)
 
 def handle_list():
-    alerts = list(map(lambda x: {'id': x['id'], 'name': x['name'], 'ip': x['filters']['ip'][0]},list_alerts()))
+    alerts =   list(map(
+        lambda x: {'id': x['id'], 'name': x['name'], 'ip': x['filters']['ip'][0]},list_alerts()
+    ))
     return response(alerts, status_code=200)
