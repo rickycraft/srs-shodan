@@ -21,6 +21,7 @@ def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
         data = req.get_json()['data']
         logging.debug(json.dumps(data, indent=2))
         producer.send_value(data)
+        
         return func.HttpResponse(
             "ShodanProducer OK\n",
             status_code=200
@@ -38,12 +39,32 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
     data = azeventgrid.get_json()
     logging.info(json.dumps(data, indent=2))
 
-    json_data = json.dumps(data).encode('utf-8')
-    req = urllib.request.Request(WEBHOOK_URL, data=json_data, method='POST')
-    req.add_header('Content-Type', 'application/json')
-    with urllib.request.urlopen(req) as response:
-        res = response.read()
-        logging.info(res)
+    try:
+        
+        print(data)
+        # Extract necessary information from the event data
+        chat_id = data["To"]  # Ensure this environment variable is set
+        text = data["Message"]
+        print(chat_id)
+        # Send the message using the Telegram bot
+        if chat_id:
+            bot.send_message(chat_id, text)
+            logging.info("Message sent to Telegram chat ID %s", chat_id)
+        else:
+            logging.error("Json error: No Chatid Defined")
+
+
+        json_data = json.dumps(data).encode('utf-8')
+    
+
+        req = urllib.request.Request(WEBHOOK_URL, data=json_data, method='POST')
+        req.add_header('Content-Type', 'application/json')
+        with urllib.request.urlopen(req) as response:
+            res = response.read()
+            logging.info(res)
+    except Exception as e:
+        logging.error(f"Error processing event grid event: {e}")
+
 
 @app.function_name(name="Startcommand")
 @app.route(route="StartCommand", auth_level=func.AuthLevel.ANONYMOUS)
