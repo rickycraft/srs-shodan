@@ -43,12 +43,13 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
         
         print(data)
         # Extract necessary information from the event data
-        chat_id = data["To"]  # Ensure this environment variable is set
-        text = data["Message"]
+        chat_id = data["chat_id"]  # Ensure this environment variable is set
+        text = data["message"]
+        ip = data["ip"]
         print(chat_id)
         # Send the message using the Telegram bot
         if chat_id:
-            bot.send_message(chat_id, text)
+            bot.send_message(chat_id,"New message from Shodan:\n"+ text +" at "+ip)
             logging.info("Message sent to Telegram chat ID %s", chat_id)
         else:
             logging.error("Json error: No Chatid Defined")
