@@ -11,7 +11,9 @@ import { eq } from 'drizzle-orm'
 import { db } from '~/server/db'
 import { notification, shodanAlert, users } from '~/server/db/schema'
 
-export default async function Component() {
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
   // middleware should check if is admin
 
   const items = await db

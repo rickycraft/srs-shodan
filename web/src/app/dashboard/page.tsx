@@ -14,7 +14,7 @@ import { getServerUser } from '~/server/lib'
 import AddNotification from './add-notification'
 import DelNotification from './del-notification'
 
-export default async function Component() {
+export default async function Page() {
   const user = await getServerUser()
 
   const items = await db
