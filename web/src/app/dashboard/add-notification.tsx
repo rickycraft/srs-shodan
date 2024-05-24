@@ -1,17 +1,36 @@
 'use client'
-import { FormEvent } from 'react'
+import { LoaderCircle } from 'lucide-react'
+import { FormEvent, useState } from 'react'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
+import { toast } from '~/components/ui/use-toast'
 import { addNotification } from '~/server/action'
 
 export default function AddNotification() {
+  const [isLoading, setLoading] = useState(false)
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setLoading(true)
     const formData = new FormData(e.currentTarget)
-    await addNotification(formData)
+    try {
+      await addNotification(formData)
+      toast({
+        title: `IP ${formData.get('ip')} added successfully`,
+        variant: 'default',
+      })
+    } catch (err) {
+      console.error(err)
+      toast({
+        title: `Errore adding ${formData.get('ip')}`,
+        description: (err as Error).message,
+        variant: 'destructive',
+      })
+    }
 
     const f = e.target as HTMLFormElement
     f.reset()
+    setLoading(false)
   }
 
   return (
@@ -22,9 +41,10 @@ export default function AddNotification() {
           placeholder="Add IP Address"
           type="text"
           name="ip"
+          disabled={isLoading}
         />
-        <Button variant="default" type="submit">
-          Add
+        <Button variant="default" type="submit" disabled={isLoading}>
+          {isLoading ? <LoaderCircle className="animate-spin" /> : <p>Add</p>}
         </Button>
       </div>
     </form>
