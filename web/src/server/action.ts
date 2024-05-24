@@ -3,7 +3,7 @@
 import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { db } from './db'
-import { notification } from './db/schema'
+import { notification, userToken } from './db/schema'
 import { getServerUser, isIPv4Address } from './lib'
 import { shodan_add_alert, shodan_del_alert } from './shodan'
 
@@ -50,4 +50,13 @@ export async function delNotification(data: FormData) {
     await shodan_del_alert(alertId)
   }
   revalidatePath('/dashboard')
+}
+
+export async function registerTelegram(data: FormData) {
+  const user = await getServerUser()
+  const chatid = data.get('chatid') as string
+
+  await db
+    .insert(userToken)
+    .values({ userId: user.id, value: chatid, type: 'telegram' })
 }

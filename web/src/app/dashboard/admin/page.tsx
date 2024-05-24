@@ -9,30 +9,29 @@ import {
 } from '@/ui/table'
 import { eq } from 'drizzle-orm'
 import { db } from '~/server/db'
-import { notification, shodanAlert } from '~/server/db/schema'
-import { getServerUser } from '~/server/lib'
-import AddNotification from './add-notification'
-import DelNotification from './del-notification'
+import { notification, shodanAlert, users } from '~/server/db/schema'
 
 export default async function Component() {
-  const user = await getServerUser()
+  // middleware should check if is admin
 
   const items = await db
     .select({
       id: shodanAlert.id,
       ip: shodanAlert.ip,
       trigger: shodanAlert.trigger,
-      user: notification.userId,
+      name: users.name,
+      email: users.email,
     })
     .from(shodanAlert)
-    .leftJoin(notification, eq(shodanAlert.id, notification.alertId))
-    .where(eq(notification.userId, user.id))
+    .innerJoin(notification, eq(shodanAlert.id, notification.alertId))
+    .leftJoin(users, eq(notification.userId, users.id))
+    .orderBy(shodanAlert.ip, users.name)
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Monitored address</h1>
-        <AddNotification />
+        <h1 className="text-2xl font-bold">All Monitored address</h1>
+        <div />
       </div>
       <Card>
         <CardContent>
@@ -42,7 +41,8 @@ export default async function Component() {
                 <TableRow>
                   <TableHead>IP</TableHead>
                   <TableHead>Trigger</TableHead>
-                  <TableHead>Action</TableHead>
+                  <TableHead>User</TableHead>
+                  <TableHead>Email</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -50,9 +50,8 @@ export default async function Component() {
                   <TableRow key={item.id}>
                     <TableCell>{item.ip}</TableCell>
                     <TableCell>{item.trigger}</TableCell>
-                    <TableCell>
-                      <DelNotification aid={item.id} />
-                    </TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.email}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
