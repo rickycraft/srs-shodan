@@ -7,7 +7,7 @@ import { useSelectedLayoutSegment } from 'next/navigation'
 import * as React from 'react'
 import { cn } from './utils'
 
-type NavItem = {
+export type NavItem = {
   title: string
   href: Route
   requireAdmin?: boolean
