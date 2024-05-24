@@ -16,17 +16,18 @@ WEBHOOK_URL = "https://webhook.rroveri.com/azure"
 @app.function_name(name="ShodanProducer")
 @app.route(route="publish", auth_level=func.AuthLevel.ANONYMOUS)
 def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
-    logging.debug('Python HTTP trigger function processed a request.')
+    logging.info('ShodanProducer function processed a request.')
     try:
         data = req.get_json()['data']
-        logging.debug(json.dumps(data, indent=2))
+        logging.info(json.dumps(data, indent=2))
         producer.send_value(data)
-        
+
         return func.HttpResponse(
             "ShodanProducer OK\n",
             status_code=200
             )
     except Exception as err:
+        logging.error("Error: %s", err)
         return func.HttpResponse(
             f"Error: {err}",
             status_code=500
@@ -40,7 +41,7 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
     logging.info(json.dumps(data, indent=2))
 
     try:
-        
+
         print(data)
         # Extract necessary information from the event data
         chat_id = data["chat_id"]  # Ensure this environment variable is set
@@ -56,7 +57,7 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
 
 
         json_data = json.dumps(data).encode('utf-8')
-    
+
 
         req = urllib.request.Request(WEBHOOK_URL, data=json_data, method='POST')
         req.add_header('Content-Type', 'application/json')
@@ -64,7 +65,7 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
             res = response.read()
             logging.info(res)
     except Exception as e:
-        logging.error(f"Error processing event grid event: {e}")
+        logging.error("Error processing event grid event: %s", e)
 
 
 @app.function_name(name="Startcommand")
