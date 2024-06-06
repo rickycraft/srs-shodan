@@ -17,8 +17,8 @@ WEBHOOK_URL = "https://webhook.rroveri.com/azure"
 def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
     logging.debug('Python HTTP trigger function processed a request.')
     try:
+        logging.info('raw reques:\n%s', json.dumps(req.get_json(), indent=2))
         data = req.get_json()['data']
-        logging.debug(json.dumps(data, indent=2))
         producer.send_value(data)
         return func.HttpResponse(
             "ShodanProducer OK\n",
