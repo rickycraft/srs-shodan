@@ -18,6 +18,7 @@ def shodan_producer(req: func.HttpRequest) -> func.HttpResponse:
     logging.debug('Python HTTP trigger function processed a request.')
     try:
         logging.info('raw reques:\n%s', json.dumps(req.get_json(), indent=2))
+        logging.info('headers:\n%s', req.headers)
         data = req.get_json()['data']
         producer.send_value(data)
         return func.HttpResponse(
