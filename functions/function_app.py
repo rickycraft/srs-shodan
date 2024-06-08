@@ -65,4 +65,9 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
 @app.route(route="AuthTest", auth_level=func.AuthLevel.FUNCTION)
 def auth_test(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('AuthTest success for %s', req.url)
+    try:
+        producer.search_chat_id('5.144.189.14')
+    except Exception as e:
+        logging.error('Error: %s', e)
+        return func.HttpResponse("Error",status_code=500)
     return func.HttpResponse("OK",status_code=200)
