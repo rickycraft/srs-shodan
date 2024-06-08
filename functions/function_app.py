@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import urllib
 
 import azure.functions as func
 import producer
@@ -10,8 +9,6 @@ import telebot
 
 app = func.FunctionApp()
 bot = telebot.TeleBot(os.environ["TELEGRAM_API_KEY"])
-
-WEBHOOK_URL = "https://webhook.rroveri.com/azure"
 
 @app.function_name(name="ShodanProducer")
 @app.route(route="publish", auth_level=func.AuthLevel.ANONYMOUS)
@@ -42,8 +39,6 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
     logging.info(json.dumps(data, indent=2))
 
     try:
-
-        print(data)
         # Extract necessary information from the event data
         chat_id = data["chat_id"]  # Ensure this environment variable is set
         text = data["message"]
@@ -56,15 +51,6 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
         else:
             logging.error("Json error: No Chatid Defined")
 
-
-        json_data = json.dumps(data).encode('utf-8')
-
-
-        req = urllib.request.Request(WEBHOOK_URL, data=json_data, method='POST')
-        req.add_header('Content-Type', 'application/json')
-        with urllib.request.urlopen(req) as response:
-            res = response.read()
-            logging.info(res)
     except Exception as e:
         logging.error("Error processing event grid event: %s", e)
 
@@ -89,11 +75,6 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
 @app.route(route="AuthTest", auth_level=func.AuthLevel.FUNCTION)
 def auth_test(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('AuthTest success for %s', req.url)
-    try:
-        producer.search_chat_id('5.144.189.14')
-    except Exception as e:
-        logging.error('Error: %s', e)
-        return func.HttpResponse("Error",status_code=500)
     return func.HttpResponse("OK",status_code=200)
 
 @app.function_name(name="ShodanAPI")
