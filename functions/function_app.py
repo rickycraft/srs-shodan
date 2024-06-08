@@ -6,6 +6,7 @@ import azure.functions as func
 import producer
 import shodan_api
 import telebot
+import util
 
 app = func.FunctionApp()
 bot = telebot.TeleBot(os.environ["TELEGRAM_API_KEY"])
@@ -43,10 +44,12 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
         chat_id = data["chat_id"]  # Ensure this environment variable is set
         text = data["message"]
         ip = data["ip"]
-        print(chat_id)
         # Send the message using the Telegram bot
         if chat_id:
-            bot.send_message(chat_id,"New message from Shodan:\n"+ text +" at "+ip)
+            messages = util.tokenize_text(text)
+            bot.send_message(chat_id,"New message from Shodan for "+ip)
+            for message in messages:
+                bot.send_message(chat_id, message)
             logging.info("Message sent to Telegram chat ID %s", chat_id)
         else:
             logging.error("Json error: No Chatid Defined")
