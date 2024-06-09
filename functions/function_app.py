@@ -78,7 +78,7 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
     text = data['message']['text']
 
     if text == '/start':
-        bot.send_message(chat_id, "Qui ci sarà il link di registrazione")
+        bot.send_message(chat_id, "Per iniziare a utilizzare il bot registrati al sito: https://shodan-srs-next.azurewebsites.net/api/register?chatid="+str(chat_id))
     else:
         bot.send_message(chat_id, chat_id)
 
