@@ -22,7 +22,7 @@ export const shodan_add_alert = async (ip: string) => {
   const alert = await db.query.shodanAlert.findFirst({
     where: (row, { eq }) => eq(row.ip, ip),
   })
-  if (alert) throw new Error(`Alert already exists for ${ip}`)
+  if (alert) return alert.id
   // call the azure function
   const response = await fetch(ip_url(ip), { method: 'POST' })
   if (response.status !== 200) {
@@ -35,13 +35,14 @@ export const shodan_add_alert = async (ip: string) => {
   return json.aid
 }
 
-export const shodan_del_alert = async (ip: string) => {
+export const shodan_del_alert = async (aid: string) => {
   // check if the alert is in the database
   const alert = await db.query.shodanAlert.findFirst({
-    where: (row, { eq }) => eq(row.ip, ip),
+    where: (row, { eq }) => eq(row.id, aid),
   })
-  if (!alert) throw new Error(`Alert for ${ip} does not exist in the database`)
+  if (!alert) throw new Error(`Alert ${aid} does not exist in the database`)
   // call the azure function
+  const ip = alert.ip
   const response = await fetch(ip_url(ip), { method: 'DELETE' })
   if (response.status !== 200) {
     throw new Error(`Error shodan_del_alert\n${await response.text()}`)
