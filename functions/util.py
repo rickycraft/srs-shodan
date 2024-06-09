@@ -15,6 +15,10 @@ def tokenize_text(text: str) -> List[str]:
         else:
             messages.append(current_message)
             current_message = x + "\n"
-
     messages.append(current_message)
+
+    # Handle specially long cases
+    if text.startswith("MongoDB Server Information"):
+        return messages[:2]
+
     return messages
