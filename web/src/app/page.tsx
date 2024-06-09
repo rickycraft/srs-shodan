@@ -23,7 +23,7 @@ export default function HomePage() {
           </button>
           <Link
             className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
+            href="https://github.com/rickycraft/srs-shodan"
             target="_blank"
           >
             <h3 className="text-2xl font-bold">Repo Github   →</h3>
