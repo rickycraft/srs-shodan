@@ -1,12 +1,12 @@
-import { DrizzleAdapter } from '@auth/drizzle-adapter'
+import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import {
   type DefaultSession,
   type NextAuthOptions,
   getServerSession,
-} from 'next-auth'
-import type { Adapter } from 'next-auth/adapters'
-import Github from 'next-auth/providers/github'
-import { db } from '~/server/db'
+} from 'next-auth';
+import type { Adapter } from 'next-auth/adapters';
+import Github from 'next-auth/providers/github';
+import { db } from '~/server/db';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -17,10 +17,10 @@ import { db } from '~/server/db'
 declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
-      id: string
+      id: string;
       // ...other properties
       // role: UserRole;
-    } & DefaultSession['user']
+    } & DefaultSession['user'];
   }
 
   // interface User {
@@ -41,11 +41,16 @@ export const authOptions: NextAuthOptions = {
       user: {
         ...session.user,
         id: user.id,
-      },     
+      },
     }),
     redirect: async ({ url, baseUrl }: { url: string, baseUrl: string }) => {
-      return `${baseUrl}/dashboard`;
+      console.log('Redirect callback called:', { url, baseUrl });
+      if (url.startsWith(baseUrl)) {
+        return `${baseUrl}/dashboard`;
+      }
+      return baseUrl;
     },
+    
   },
   adapter: DrizzleAdapter(db) as Adapter,
   providers: [
@@ -54,11 +59,12 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     }),
   ],
-}
+  debug: true,
+};
 
 /**
  * Wrapper for `getServerSession` so that you don't need to import the `authOptions` in every file.
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions)
+export const getServerAuthSession = () => getServerSession(authOptions);
