@@ -1,13 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
+import React, {useEffect} from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  useEffect(() => {
+    console.log('Session:', session);
+    console.log('Status:', status);
+  }, [session, status]);
 
   const handleLogin = async () => {
     const result = await signIn('github');
@@ -16,8 +21,8 @@ export default function HomePage() {
     }
   };
 
-  const handleLogout = () => {
-    signOut();
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' });
   };
 
   if (status === 'loading') {
