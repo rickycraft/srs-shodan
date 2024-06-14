@@ -1,26 +1,26 @@
-import { Viewport } from 'next';
-import { Inter as FontSans } from 'next/font/google';
-import { Toaster } from '~/components/ui/toaster';
-import { cn } from '~/components/utils';
-import '~/styles/globals.css';
-import SessionLayout from './SessionLayout'; // Importa il nuovo componente
-import type { Session } from 'next-auth'; // Aggiungi questa riga
+import { Viewport } from 'next'
+import { Inter as FontSans } from 'next/font/google'
+import { Toaster } from '~/components/ui/toaster'
+import { cn } from '~/components/utils'
+import '~/styles/globals.css'
+import SessionLayout from './SessionLayout'
+import type { Session } from 'next-auth'
 
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
-});
+})
 
 export const viewport: Viewport = {
   themeColor: 'black',
-};
+}
 
 export default function RootLayout({
   children,
   session,
 }: {
-  children: React.ReactNode;
-  session: Session | null;
+  children: React.ReactNode
+  session: Session | null
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -31,11 +31,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <SessionLayout session={session}>
-          {children}
-        </SessionLayout>
+        <SessionLayout session={session}>{children}</SessionLayout>
         <Toaster />
       </body>
     </html>
-  );
+  )
 }

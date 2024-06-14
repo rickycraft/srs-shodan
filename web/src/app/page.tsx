@@ -38,6 +38,7 @@ export default function HomePage() {
         </h1>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
           {session ? (
+            //se utente gia loggato visualizzerà la scritta welcome e il nome utente
             <div className="flex flex-col items-center">
               <p className="text-lg">Welcome, {session.user?.name}</p>
               <button
@@ -48,6 +49,7 @@ export default function HomePage() {
               </button>
             </div>
           ) : (
+            //se l'utente non è loggato allora visualizzerà il pulsante di login che lo redirigirà sul login OAUTH di github
             <button
               className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
               onClick={handleLogin}
