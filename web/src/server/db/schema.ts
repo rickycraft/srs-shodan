@@ -1,5 +1,6 @@
 import { eq } from 'drizzle-orm'
 import {
+  boolean,
   inet,
   integer,
   pgEnum,
@@ -21,6 +22,7 @@ export const users = pgTable('user', {
   email: text('email').notNull(),
   emailVerified: timestamp('emailVerified', { mode: 'date' }),
   image: text('image'),
+  admin: boolean('admin').notNull().default(false),
 })
 
 export const accounts = pgTable(
