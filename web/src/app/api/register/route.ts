@@ -4,6 +4,7 @@ import { userToken } from '~/server/db/schema'
 import { getServerUser } from '~/server/lib'
 
 async function handler(req: NextRequest) {
+  console.log('register', req.nextUrl)
   const origin = req.nextUrl.origin
   // should be protected by middleware
   const user = await getServerUser()
