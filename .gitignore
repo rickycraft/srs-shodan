@@ -31,4 +31,4 @@ functions/.env
 .azurite
 
 # Ignora il file di log di autenticazione
-logs/auth.log
+web/logs/auth.log
