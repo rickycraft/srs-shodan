@@ -3,6 +3,8 @@ import { db } from '~/server/db'
 import { userToken } from '~/server/db/schema'
 import { getServerUser } from '~/server/lib'
 
+const REDIRECT_PATH = '/dashboard/register'
+
 async function handler(req: NextRequest) {
   const origin = process.env.NEXTAUTH_URL
   // should be protected by middleware
@@ -17,7 +19,7 @@ async function handler(req: NextRequest) {
     where: (t, { eq }) => eq(t.value, chatId),
   })
   if (tokens.length > 0) {
-    return NextResponse.redirect(origin + '/?registered=true')
+    return NextResponse.redirect(origin + REDIRECT_PATH + '?status=already')
   }
 
   // insert the token (telegram by default)
@@ -27,7 +29,7 @@ async function handler(req: NextRequest) {
     value: chatId,
   })
 
-  return NextResponse.redirect(origin + '/?registered=true')
+  return NextResponse.redirect(origin + REDIRECT_PATH + '?status=now')
 }
 
 export { handler as GET, handler as POST }
