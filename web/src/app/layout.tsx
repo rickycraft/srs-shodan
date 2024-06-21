@@ -3,8 +3,6 @@ import { Inter as FontSans } from 'next/font/google'
 import { Toaster } from '~/components/ui/toaster'
 import { cn } from '~/components/utils'
 import '~/styles/globals.css'
-import SessionLayout from './SessionLayout'
-import type { Session } from 'next-auth'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -17,10 +15,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-  session,
 }: {
   children: React.ReactNode
-  session: Session | null
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -31,7 +27,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <SessionLayout session={session}>{children}</SessionLayout>
+        {children}
         <Toaster />
       </body>
     </html>

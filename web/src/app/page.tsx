@@ -1,34 +1,6 @@
-'use client'
-
 import Link from 'next/link'
-import React, { useEffect } from 'react'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 
-export default function HomePage() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
-
-  useEffect(() => {
-    console.log('Session:', session)
-    console.log('Status:', status)
-  }, [session, status])
-
-  const handleLogin = async () => {
-    const result = await signIn('github')
-    if (result?.url) {
-      router.push(result.url)
-    }
-  }
-
-  const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' })
-  }
-
-  if (status === 'loading') {
-    return <p>Loading...</p>
-  }
-
+export default async function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
@@ -37,30 +9,6 @@ export default function HomePage() {
           WebApp
         </h1>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          {session ? (
-            //se utente gia loggato visualizzerà la scritta welcome e il nome utente
-            <div className="flex flex-col items-center">
-              <p className="text-lg">Welcome, {session.user?.name}</p>
-              <button
-                className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-                onClick={handleLogout}
-              >
-                <h3 className="text-2xl font-bold">Logout</h3>
-              </button>
-            </div>
-          ) : (
-            //se l'utente non è loggato allora visualizzerà il pulsante di login che lo redirigirà sul login OAUTH di github
-            <button
-              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-              onClick={handleLogin}
-            >
-              <h3 className="text-2xl font-bold">Login →</h3>
-              <div className="text-lg">
-                OAuth di GitHub
-                <img src="/logoGitHub.png" alt="GitHub OAuth Login" />
-              </div>
-            </button>
-          )}
           <Link
             className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
             href="https://github.com/rickycraft/srs-shodan"
