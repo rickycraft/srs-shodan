@@ -7,6 +7,7 @@ import {
 import type { Adapter } from 'next-auth/adapters'
 import Github from 'next-auth/providers/github'
 import { db } from '~/server/db'
+import { logToFile } from '~/middleware/logging'
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
@@ -41,6 +42,24 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   debug: true,
+  events: {
+    signIn: async ({ user }) => {
+      logToFile(
+        `auth.ts Utente ${user.name} (${user.email}) ha effettuato il login`
+      )
+    },
+    signOut: async ({ token }) => {
+      if (token) {
+        logToFile(
+          `auth.ts NELL IF: Utente ${token.name} (${token.email}) ha effettuato il logout`
+        )
+      } else {
+        logToFile(
+          `auth.ts NELL ELSE: Utente sconosciuto ha effettuato il logout`
+        )
+      }
+    },
+  },
 }
 
 export const getServerAuthSession = () => getServerSession(authOptions)

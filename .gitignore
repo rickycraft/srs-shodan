@@ -29,3 +29,6 @@ functions/env
 functions/*/.venv
 functions/.env
 .azurite
+
+# Ignora il file di log di autenticazione
+logs/auth.log

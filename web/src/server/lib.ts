@@ -1,5 +1,6 @@
 import { getServerSession } from 'next-auth'
 import { authOptions } from './auth'
+import { logToFile } from '~/middleware/logging'
 
 export function isIPv4Address(inputString: string): boolean {
   const ipv4Pattern = /^(\d{1,3}\.){3}\d{1,3}$/
@@ -11,6 +12,12 @@ export function isIPv4Address(inputString: string): boolean {
 
 export async function getServerUser() {
   const session = await getServerSession(authOptions)
-  if (!session) throw new Error('403')
+  if (!session) {
+    // Log per debug
+    const message = 'Nessuna sessione trovata - accesso non autorizzato'
+    console.log(message)
+    logToFile(message)
+    return null
+  }
   return session.user
 }

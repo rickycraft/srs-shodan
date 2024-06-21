@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import { Card, CardContent } from '@/ui/card'
 import {
   Table,
@@ -16,6 +17,10 @@ import DelNotification from './del-notification'
 
 export default async function Page() {
   const user = await getServerUser()
+
+  if (!user) {
+    redirect('/api/auth/signin') // Reindirizza alla pagina di login OAuth di GitHub
+  }
 
   const items = await db
     .select({
