@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
   },
   {
     title: 'Admin',
-    href: '/admin/dashboard',
+    href: '/dashboard/admin',
     requireAdmin: true,
   },
 ]
