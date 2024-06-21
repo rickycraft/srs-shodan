@@ -23,8 +23,8 @@ const LoginNav = () => (
 
 const navItems: NavItem[] = [
   {
-    title: 'Dasbhboard',
-    href: '/dasbhoard',
+    title: 'Dashboard',
+    href: '/dashboard',
     requireAdmin: false,
   },
   {
