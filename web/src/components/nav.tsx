@@ -41,11 +41,12 @@ function NavWrapper() {
   const isAdmin = process.env.NODE_ENV === 'development'
 
   const AccountNav = () =>
-    session.status == 'loading' ? null : authed ? (
+    session.status == 'loading' ? null : authed && user ? (
       <UserNav
-        name={user?.name || ''}
-        email={user?.email || ''}
-        image={user?.image || undefined}
+        name={user.name}
+        email={user.email}
+        image={user.image || undefined}
+        admin={user.admin}
       />
     ) : (
       <LoginNav />

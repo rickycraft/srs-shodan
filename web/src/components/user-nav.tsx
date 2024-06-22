@@ -16,10 +16,12 @@ export function UserNav({
   name,
   email,
   image,
+  admin,
 }: {
   name: string
   email: string
   image: string | undefined
+  admin: boolean
 }) {
   const handleSignOut = () =>
     signOut().then((res) => {
@@ -39,7 +41,9 @@ export function UserNav({
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{name}</p>
+            <p className="text-sm font-medium leading-none">
+              {admin ? `${name} (admin)` : name}
+            </p>
             <p className="text-xs leading-none text-muted-foreground">
               {email}
             </p>
