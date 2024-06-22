@@ -7,6 +7,7 @@ import {
 import type { Adapter } from 'next-auth/adapters'
 import Github from 'next-auth/providers/github'
 import { db } from '~/server/db'
+import { accounts, sessions, users, verificationTokens } from './db/schema'
 
 const MAX_AGE = 7 * 24 * 60 * 60 // 7 days
 
@@ -28,6 +29,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt({ token, user }) {
       if (user) {
+        console.log('jwt', user)
         token.user = user
       }
       return token
@@ -39,7 +41,12 @@ export const authOptions: NextAuthOptions = {
   },
   session: { strategy: 'jwt', maxAge: MAX_AGE },
   jwt: { maxAge: MAX_AGE },
-  adapter: DrizzleAdapter(db) as Adapter,
+  adapter: DrizzleAdapter(db, {
+    usersTable: users,
+    accountsTable: accounts,
+    sessionsTable: sessions,
+    verificationTokensTable: verificationTokens,
+  }) as Adapter,
   providers: [
     Github({
       clientId: process.env.GITHUB_CLIENT_ID!,
