@@ -4,8 +4,8 @@ import { SessionProvider, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { MainNav, NavItem } from './main-nav'
 import { buttonVariants } from './ui/button'
+import { UserNav } from './user-nav'
 import { cn } from './utils'
-// const UserAccountNav = dynamic(() => import('./user-nav'), { ssr: false })
 
 const LoginNav = () => (
   <nav>
@@ -40,15 +40,13 @@ function NavWrapper() {
   const user = session.data?.user
   const isAdmin = process.env.NODE_ENV === 'development'
 
-  const UserNav = () =>
+  const AccountNav = () =>
     session.status == 'loading' ? null : authed ? (
-      // <UserAccountNav
-      //   user={{
-      //     name: session.data.user.name,
-      //     username: session.data.user.email,
-      //   }}
-      // />
-      <div></div>
+      <UserNav
+        name={user?.name || ''}
+        email={user?.email || ''}
+        image={user?.image || undefined}
+      />
     ) : (
       <LoginNav />
     )
@@ -56,7 +54,7 @@ function NavWrapper() {
   return (
     <>
       <MainNav items={navItems} isAdmin={isAdmin} />
-      <UserNav />
+      <AccountNav />
     </>
   )
 }
