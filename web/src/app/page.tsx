@@ -1,40 +1,55 @@
-import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
 import { getServerSession } from 'next-auth'
+import Link from 'next/link'
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '~/components/ui/card'
 import { authOptions } from '~/server/auth'
-import { User } from 'next-auth'
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions)
-  const user: User | null = session ? session.user : null
+  const user = session ? session.user : null
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          <span className="text-[hsl(280,100%,70%)]">SHODAN Monitoring</span>{' '}
-          WebApp
-        </h1>
-        {user && <div className="mt-4 text-lg">Benvenuto, {user.name}!</div>}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="/dashboard"
-          >
-            <h3 className="text-2xl font-bold">Go to Dashboard →</h3>
-            <div className="text-lg">Vai alla dashboard</div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://github.com/rickycraft/srs-shodan"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Repo Github →</h3>
-            <div className="text-lg">
-              Repository GitHub del Progetto di Scalable and Reliable Services M
-            </div>
-          </Link>
-        </div>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-white">
+      <h1 className="text-5xl font-bold text-purple-700">
+        SHODAN <span className="text-black">Monitoring</span>{' '}
+        <span className="text-black">WebApp</span>
+      </h1>
+      {user && (
+        <p className="mt-4 text-lg text-gray-700">Welcome, {user.name}!</p>
+      )}
+      <div className="mt-8 grid grid-cols-2 space-x-4">
+        <Link href="/dashboard">
+          <Card className="bg-white p-4 shadow-md">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold">
+                Go to Dashboard{' '}
+                <ArrowRight className="ml-2 inline-block h-5 w-5" />
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Here you can find the monitored ip
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link href="https://github.com/rickycraft/srs-shodan" target="_blank">
+          <Card className="bg-white p-4 shadow-md">
+            <CardHeader>
+              <CardTitle className="text-lg font-semibold">
+                Github Repository{' '}
+                <ArrowRight className="ml-2 inline-block h-5 w-5" />
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Project for Scalable and Reliable Services M
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
       </div>
-    </main>
+    </div>
   )
 }

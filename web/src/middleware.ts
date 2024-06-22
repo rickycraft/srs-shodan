@@ -21,5 +21,5 @@ export default withAuth(
 
 // Applicare il middleware alle route protette
 export const config = {
-  matcher: ['/', '/me', '/dashboard/:path*', '/api/register'],
+  matcher: ['/me', '/dashboard/:path*', '/api/register'],
 }
