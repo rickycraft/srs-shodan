@@ -1,3 +1,4 @@
+import pino from 'pino'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './auth'
 
@@ -18,3 +19,9 @@ export async function getServerUser() {
   }
   return session.user
 }
+
+export const baseLogger = (tag: string) =>
+  pino({
+    level: process.env.LOG_LEVEL || 'info',
+    base: undefined,
+  }).child({ tag })

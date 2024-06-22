@@ -7,6 +7,7 @@ import {
 import type { Adapter } from 'next-auth/adapters'
 import Github from 'next-auth/providers/github'
 import { db } from '~/server/db'
+import logger from './logger'
 
 const MAX_AGE = 7 * 24 * 60 * 60 // 7 days
 
@@ -48,15 +49,15 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     signIn: async ({ user }) => {
-      console.log(`Utente ${user.name} (${user.email}) ha effettuato il login`)
+      logger.info(`Utente ${user.name} (${user.email}) ha effettuato il login`)
     },
     signOut: async ({ token }) => {
       if (token) {
-        console.log(
+        logger.info(
           `Utente ${token.name} (${token.email}) ha effettuato il logout`
         )
       } else {
-        console.log(`Utente sconosciuto ha effettuato il logout`)
+        logger.info('Utente sconosciuto ha effettuato il logout')
       }
     },
   },

@@ -1,17 +1,17 @@
 import { withAuth } from 'next-auth/middleware'
 import { NextResponse } from 'next/server'
+import logger from '~/server/logger'
 
 export default withAuth(
   function middleware({ url, nextauth, nextUrl }) {
-    // shoud never happen but useful for types
-    if (!nextauth.token || nextauth.token.user === null)
+    if (!nextauth.token || nextauth.token.user === null) {
+      logger.warn(`Tentativo di accesso non autorizzato a ${url}`)
       return NextResponse.rewrite(new URL('/auth/login', url))
-
+    }
     return NextResponse.next()
   },
   {
     callbacks: {
-      // just exclude if not authorized
       authorized: ({ token }) => {
         return token !== null && token.user !== null
       },
