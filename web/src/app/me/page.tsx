@@ -3,6 +3,7 @@ import { SessionProvider, useSession } from 'next-auth/react'
 
 const _MePage = () => {
   const { data, status } = useSession()
+  console.log(data)
 
   if (status == 'loading') {
     return <div>Loading...</div>

@@ -11,6 +11,10 @@ export function isIPv4Address(inputString: string): boolean {
 
 export async function getServerUser() {
   const session = await getServerSession(authOptions)
-  if (!session) throw new Error('403')
+  if (!session) {
+    const message = 'No session found - access denied'
+    console.log(message)
+    throw new Error('403')
+  }
   return session.user
 }
