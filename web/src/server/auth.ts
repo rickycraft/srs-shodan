@@ -7,8 +7,10 @@ import {
 import type { Adapter } from 'next-auth/adapters'
 import Github from 'next-auth/providers/github'
 import { db } from '~/server/db'
+import { baseLogger } from '~/server/lib'
 
 const MAX_AGE = 7 * 24 * 60 * 60 // 7 days
+const logger = baseLogger('auth')
 
 declare module 'next-auth' {
   interface User {
@@ -48,15 +50,13 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     signIn: async ({ user }) => {
-      console.log(`Utente ${user.name} (${user.email}) ha effettuato il login`)
+      logger.info({ name: user.name, email: user.email }, 'user logged in')
     },
     signOut: async ({ token }) => {
       if (token) {
-        console.log(
-          `Utente ${token.name} (${token.email}) ha effettuato il logout`
-        )
+        logger.info({ name: token.name, email: token.email }, 'user logged out')
       } else {
-        console.log(`Utente sconosciuto ha effettuato il logout`)
+        logger.info(`Unknown user has logged out !`)
       }
     },
   },
