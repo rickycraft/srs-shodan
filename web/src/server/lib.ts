@@ -1,4 +1,5 @@
 import { getServerSession } from 'next-auth'
+import pino from 'pino'
 import { authOptions } from './auth'
 
 export function isIPv4Address(inputString: string): boolean {
@@ -18,3 +19,9 @@ export async function getServerUser() {
   }
   return session.user
 }
+
+export const baseLogger = (tag: string) =>
+  pino({
+    level: process.env.LOG_LEVEL || 'info',
+    base: undefined,
+  }).child({ tag })
