@@ -38,7 +38,7 @@ function NavWrapper() {
   const session = useSession()
   const authed = session.status == 'authenticated'
   const user = session.data?.user
-  const isAdmin = process.env.NODE_ENV === 'development'
+  const isAdmin = user?.admin || false
 
   const AccountNav = () =>
     session.status == 'loading' ? null : authed && user ? (
