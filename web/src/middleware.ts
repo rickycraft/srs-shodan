@@ -8,14 +8,36 @@ const logger = pino({
     asObject: false,
   },
 })
+
 const loggerWrapper = (data: any, msg: string) =>
   JSON.stringify({ ...data, tag: 'middleware', msg })
 
 export default withAuth(
   function middleware({ url, nextauth, nextUrl }) {
-    // shoud never happen but useful for types
-    if (!nextauth.token || nextauth.token.user === null)
+    // Debugging log to verify middleware execution
+    logger.debug(
+      loggerWrapper(
+        {
+          path: nextUrl.pathname,
+          query: nextUrl.search,
+        },
+        'middleware started  '
+      )
+    )
+
+    if (!nextauth.token || nextauth.token.user === null) {
+      // Log for unhautorized access
+      logger.warn(
+        loggerWrapper(
+          {
+            path: nextUrl.pathname,
+            query: nextUrl.search,
+          },
+          ''
+        )
+      )
       return NextResponse.rewrite(new URL('/auth/login', url))
+    }
 
     logger.info(
       loggerWrapper(
@@ -38,7 +60,7 @@ export default withAuth(
   }
 )
 
-// Applicare il middleware alle route protette
+// Apply middleware to protected routes
 export const config = {
-  matcher: ['/', '/me', '/dashboard/:path*', '/api/register'],
+  matcher: ['/', '/me', '/dashboard/:path*', '/api/register', '/api/health'],
 }
