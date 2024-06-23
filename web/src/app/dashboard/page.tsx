@@ -13,7 +13,6 @@ import { notification, shodanAlert } from '~/server/db/schema'
 import { getServerUser } from '~/server/lib'
 import AddNotification from './add-notification'
 import DelNotification from './del-notification'
-import LogoutButton from '~/components/LogoutButton'
 
 export default async function Page() {
   const user = await getServerUser()
@@ -37,10 +36,6 @@ export default async function Page() {
       </div>
       <Card>
         <CardContent>
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-semibold">Dashboard</h2>
-            <LogoutButton />
-          </div>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
