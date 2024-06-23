@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '~/server/db'
 import { userToken } from '~/server/db/schema'
-import { baseLogger, getServerUser } from '~/server/lib'
+import { getServerUser } from '~/server/lib'
+import { baseLogger } from '~/server/log'
 
 const REDIRECT_PATH = '/dashboard/register'
 const logger = baseLogger('register')

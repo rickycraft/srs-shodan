@@ -7,7 +7,7 @@ import {
 import type { Adapter } from 'next-auth/adapters'
 import Github from 'next-auth/providers/github'
 import { db } from '~/server/db'
-import { baseLogger } from '~/server/lib'
+import { baseLogger } from '~/server/log'
 
 const MAX_AGE = 7 * 24 * 60 * 60 // 7 days
 const logger = baseLogger('auth')
