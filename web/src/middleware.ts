@@ -14,28 +14,7 @@ const loggerWrapper = (data: any, msg: string) =>
 
 export default withAuth(
   function middleware({ url, nextauth, nextUrl }) {
-    // Debugging log to verify middleware execution
-    logger.debug(
-      loggerWrapper(
-        {
-          path: nextUrl.pathname,
-          query: nextUrl.search,
-        },
-        'middleware started  '
-      )
-    )
-
     if (!nextauth.token || nextauth.token.user === null) {
-      // Log for unhautorized access
-      logger.warn(
-        loggerWrapper(
-          {
-            path: nextUrl.pathname,
-            query: nextUrl.search,
-          },
-          ''
-        )
-      )
       return NextResponse.rewrite(new URL('/auth/login', url))
     }
 
@@ -54,7 +33,21 @@ export default withAuth(
     callbacks: {
       // just exclude if not authorized
       authorized: ({ token }) => {
-        return token !== null && token.user !== null
+        const isAuthorized = token !== null && token.user !== null
+
+        if (!isAuthorized) {
+          // Log when the user is not authorized
+          logger.warn(
+            loggerWrapper(
+              {
+                token,
+              },
+              'user not authorized'
+            )
+          )
+        }
+
+        return isAuthorized
       },
     },
   }
@@ -62,5 +55,5 @@ export default withAuth(
 
 // Apply middleware to protected routes
 export const config = {
-  matcher: ['/', '/me', '/dashboard/:path*', '/api/register', '/api/health'],
+  matcher: ['/', '/me', '/dashboard/:path*', '/api/register'],
 }
