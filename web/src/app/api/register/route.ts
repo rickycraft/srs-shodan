@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '~/server/db'
 import { userToken } from '~/server/db/schema'
 import { getServerUser } from '~/server/lib'
+import { baseLogger } from '~/server/log'
 
 const REDIRECT_PATH = '/dashboard/register'
+const logger = baseLogger('register')
 
 async function handler(req: NextRequest) {
   const origin = process.env.NEXTAUTH_URL
@@ -29,6 +31,7 @@ async function handler(req: NextRequest) {
     value: chatId,
   })
 
+  logger.info({ chatId, userId: user.id }, 'token registered')
   return NextResponse.redirect(origin + REDIRECT_PATH + '?status=now')
 }
 
