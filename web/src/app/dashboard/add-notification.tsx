@@ -22,8 +22,9 @@ export default function AddNotification() {
     } catch (err) {
       console.error(err)
       toast({
-        title: `Errore adding ${formData.get('ip')}`,
-        description: (err as Error).message,
+        title: `Error adding ${formData.get('ip')}`,
+        description:
+          'There was an error adding the IP address. Check your IP address and try again.',
         variant: 'destructive',
       })
     }
