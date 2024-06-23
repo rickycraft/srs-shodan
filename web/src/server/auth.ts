@@ -2,6 +2,7 @@ import { DrizzleAdapter } from '@auth/drizzle-adapter'
 import {
   ISODateString,
   type NextAuthOptions,
+  type User,
   getServerSession,
 } from 'next-auth'
 import type { Adapter } from 'next-auth/adapters'
@@ -24,6 +25,12 @@ declare module 'next-auth' {
   interface Session {
     user: User
     expires: ISODateString
+  }
+}
+
+declare module 'next-auth/jwt' {
+  interface JWT {
+    user: User
   }
 }
 
@@ -58,7 +65,10 @@ export const authOptions: NextAuthOptions = {
     },
     signOut: async ({ token }) => {
       if (token) {
-        logger.info({ name: token.name, email: token.email }, 'user logged out')
+        logger.info(
+          { name: token.user.name, email: token.user.email },
+          'user logged out'
+        )
       } else {
         logger.info(`Unknown user has logged out !`)
       }

@@ -18,10 +18,26 @@ export default withAuth(
       return NextResponse.rewrite(new URL('/auth/login', url))
     }
 
+    // check if user is admin
+    if (!nextauth.token.user.admin && nextUrl.pathname == '/dashboard/admin') {
+      console.log('nextauth.token', nextauth.token.user.admin)
+      logger.warn(
+        loggerWrapper(
+          {
+            name: nextauth.token.user.name,
+            admin: nextauth.token.user.admin,
+            path: nextUrl.pathname,
+          },
+          'user not admin'
+        )
+      )
+      return NextResponse.rewrite(new URL('/dashboard', url))
+    }
+
     logger.info(
       loggerWrapper(
         {
-          name: nextauth.token.name,
+          name: nextauth.token.user.name,
           path: nextUrl.pathname,
         },
         'user ok'
