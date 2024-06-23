@@ -6,6 +6,9 @@ import { db } from './db'
 import { notification, userToken } from './db/schema'
 import { getServerUser, isIPv4Address } from './lib'
 import { shodan_add_alert, shodan_del_alert } from './shodan'
+import { baseLogger } from '~/server/log'
+
+const logger = baseLogger('action')
 
 // export async function addIpAlert(data: FormData) {
 //   const ip = data.get('ip') as string
@@ -20,9 +23,12 @@ export async function addNotification(data: FormData) {
   const user = await getServerUser()
 
   const ip = (data.get('ip') as string).trim()
-  if (!isIPv4Address(ip)) throw new Error('Invalid IP Address')
+  if (!isIPv4Address(ip)) {
+    logger.error({ userId: user.id, ip }, 'Invalid IP Address')
+    throw new Error('Invalid IP Address')
+  }
 
-  // search for the alert in the database
+  logger.info({ userId: user.id, ip }, 'Adding notification')
   const alert = await db.query.shodanAlert.findFirst({
     where: (row, { eq }) => eq(row.ip, ip),
   })
@@ -30,6 +36,7 @@ export async function addNotification(data: FormData) {
   await db.insert(notification).values({ userId: user.id, alertId })
 
   revalidatePath('/dashboard')
+  logger.info({ userId: user.id, alertId }, 'Notification added successfully')
   return alertId
 }
 
@@ -37,6 +44,7 @@ export async function delNotification(data: FormData) {
   const alertId = data.get('aid') as string
   const user = await getServerUser()
 
+  logger.info({ userId: user.id, alertId }, 'Deleting notification')
   await db
     .delete(notification)
     .where(
@@ -50,13 +58,19 @@ export async function delNotification(data: FormData) {
     await shodan_del_alert(alertId)
   }
   revalidatePath('/dashboard')
+  logger.info({ userId: user.id, alertId }, 'Notification deleted successfully')
 }
 
 export async function registerTelegram(data: FormData) {
   const user = await getServerUser()
   const chatid = data.get('chatid') as string
 
+  logger.info({ userId: user.id, chatid }, 'Registering Telegram user')
   await db
     .insert(userToken)
     .values({ userId: user.id, value: chatid, type: 'telegram' })
+  logger.info(
+    { userId: user.id, chatid },
+    'Telegram user registered successfully'
+  )
 }
