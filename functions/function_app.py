@@ -58,17 +58,18 @@ def shodan_consumer(azeventgrid: func.EventGridEvent):
         logging.error("Error processing event grid event: %s", e)
 
 
-@app.function_name(name="Startcommand")
+@app.function_name(name="StartCommand")
 @app.route(route="StartCommand", auth_level=func.AuthLevel.ANONYMOUS)
 def start_command(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
 
     data = req.get_json()
     chat_id = data['message']['chat']['id']
     text = data['message']['text']
+    logging.info('Received message from %s: %s', chat_id, text)
 
+    chat_url = "https://shodan-srs-next.azurewebsites.net/api/register?chatid="+str(chat_id)
     if text == '/start':
-        bot.send_message(chat_id, "Per iniziare a utilizzare il bot registrati al sito: https://shodan-srs-next.azurewebsites.net/api/register?chatid="+str(chat_id))
+        bot.send_message(chat_id, "To start using the bot register here: "+chat_url)
     else:
         bot.send_message(chat_id, chat_id)
 
