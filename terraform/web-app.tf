@@ -139,6 +139,25 @@ resource "azurerm_monitor_autoscale_setting" "web_scale" {
         direction = "Increase"
         type      = "ChangeCount"
         value     = "1"
+        cooldown  = "PT3M"
+      }
+    }
+    rule {
+      metric_trigger {
+        metric_name        = "CpuPercentage"
+        metric_resource_id = azurerm_service_plan.app_service.id
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_grain         = "PT1M"
+        time_aggregation   = "Average"
+        operator           = "LessThan"
+        threshold          = 60
+      }
+
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = "1"
         cooldown  = "PT5M"
       }
     }
