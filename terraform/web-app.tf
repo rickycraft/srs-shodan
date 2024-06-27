@@ -3,7 +3,8 @@ resource "azurerm_service_plan" "app_service" {
   resource_group_name = var.azurerm_resource_group_name
   location            = var.azurerm_region
   os_type             = "Linux"
-  sku_name            = "B1"
+  sku_name            = "S1"
+  worker_count        = 1
 }
 
 resource "azurerm_user_assigned_identity" "web_app" {
@@ -105,4 +106,42 @@ resource "azurerm_monitor_diagnostic_setting" "web_app" {
     category = "AllMetrics"
     enabled  = true
   }
+}
+
+resource "azurerm_monitor_autoscale_setting" "web_scale" {
+  name                = "web-app-scale"
+  resource_group_name = var.azurerm_resource_group_name
+  location            = var.azurerm_region
+  target_resource_id  = azurerm_service_plan.app_service.id
+
+  profile {
+    name = "Cpu70"
+
+    capacity {
+      default = 1
+      minimum = 1
+      maximum = 3
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "CpuPercentage"
+        metric_resource_id = azurerm_service_plan.app_service.id
+        statistic          = "Average"
+        time_window        = "PT3M"
+        time_grain         = "PT1M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = 70
+      }
+
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT5M"
+      }
+    }
+  }
+
 }
