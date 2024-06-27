@@ -79,6 +79,10 @@ def start_command(req: func.HttpRequest) -> func.HttpResponse:
 @app.route(route="AuthTest", auth_level=func.AuthLevel.FUNCTION)
 def auth_test(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('AuthTest success for %s', req.url)
+    ip = req.params.get('ip')
+    if ip:
+        chats = producer.search_chat_id(ip)
+        logging.info('Found %d chats for %s', len(chats), ip)
     return func.HttpResponse("OK",status_code=200)
 
 @app.function_name(name="ShodanAPI")
