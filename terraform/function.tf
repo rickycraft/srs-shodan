@@ -31,7 +31,8 @@ resource "azurerm_linux_function_app" "shodan" {
     SHODAN_API_KEY     = var.shodan_api_key
     TELEGRAM_API_KEY   = var.telegram_api_key
     # Azure defaults
-    AzureWebJobsFeatureFlags = "EnableWorkerIndexing"
+    AzureWebJobsFeatureFlags         = "EnableWorkerIndexing"
+    SCALE_CONTROLLER_LOGGING_ENABLED = "AppInsights:Verbose"
   }
 
   connection_string {
