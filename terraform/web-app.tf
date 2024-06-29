@@ -125,6 +125,7 @@ resource "azurerm_monitor_autoscale_setting" "web_scale" {
 
     rule {
       metric_trigger {
+        metric_namespace   = "microsoft.web/serverfarms"
         metric_name        = "CpuPercentage"
         metric_resource_id = azurerm_service_plan.app_service.id
         statistic          = "Average"
@@ -132,7 +133,7 @@ resource "azurerm_monitor_autoscale_setting" "web_scale" {
         time_grain         = "PT1M"
         time_aggregation   = "Average"
         operator           = "GreaterThan"
-        threshold          = 70
+        threshold          = 80
       }
 
       scale_action {
@@ -144,6 +145,7 @@ resource "azurerm_monitor_autoscale_setting" "web_scale" {
     }
     rule {
       metric_trigger {
+        metric_namespace   = "microsoft.web/serverfarms"
         metric_name        = "CpuPercentage"
         metric_resource_id = azurerm_service_plan.app_service.id
         statistic          = "Average"
@@ -151,11 +153,31 @@ resource "azurerm_monitor_autoscale_setting" "web_scale" {
         time_grain         = "PT1M"
         time_aggregation   = "Average"
         operator           = "LessThan"
-        threshold          = 60
+        threshold          = 50
       }
 
       scale_action {
         direction = "Decrease"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT5M"
+      }
+    }
+    rule {
+      metric_trigger {
+        metric_namespace   = "microsoft.web/sites"
+        metric_name        = "HttpResponseTime"
+        metric_resource_id = azurerm_linux_web_app.next_app.id
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_grain         = "PT1M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = 0.5
+      }
+
+      scale_action {
+        direction = "Increase"
         type      = "ChangeCount"
         value     = "1"
         cooldown  = "PT5M"
