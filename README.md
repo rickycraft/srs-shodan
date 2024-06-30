@@ -7,9 +7,6 @@ Core:
 - Modifica ip monitorati (api shodan)
 - Binding account <-> telegram
 
-Extra:
-- Search ip
-
 Technologies:
 - NextJS
 - Docker
@@ -23,10 +20,6 @@ Usare getUpdate oppure le callback?
 Core:
 - /start link di registrazione
 
-Extra:
-- /list ip monitorati
-- /add | /remove ip monitorati
-
 Technologies:
 - Docker
 - Python
@@ -36,9 +29,6 @@ Technologies:
 Core:
 - Callback da shodan -> event hub
 - Event hub -> bot telegram
-
-Extra:
-- Event hub -> sistema x (mail/sms)
 
 Technologies:
 - Azure functions
@@ -54,10 +44,6 @@ Core:
   - Docker registry
   - App engine
   - SQL
-
-Extra:
-- Dependency analyzer (security)
-- Static code analyzer
 
 Limitazioni:
 - Impossibilità di utilizzare le managed identity per maggiore sicurezza a causa delle impostazioni del tenant
